@@ -1,6 +1,8 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { supabase } from '@/lib/supabase'
+import type { User as SupabaseUser, Session } from '@supabase/supabase-js'
 
 export interface User {
   id: string
@@ -22,58 +24,81 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@example.com'
+
+/**
+ * Map Supabase user to our User interface
+ */
+function mapSupabaseUser(supabaseUser: SupabaseUser): User {
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email || '',
+    name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || 'User',
+    role: supabaseUser.email === ADMIN_EMAIL ? 'admin' : 'user',
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isEditMode, setIsEditMode] = useState(false)
 
-  // Check for existing session on mount
+  // Check for existing session and listen to auth changes
   useEffect(() => {
-    const checkAuth = async () => {
+    // Get initial session
+    const getInitialSession = async () => {
       try {
-        const token = localStorage.getItem('auth_token')
-        if (token) {
-          // In a real app, you'd validate the token with your backend
-          const userData = localStorage.getItem('user_data')
-          if (userData) {
-            setUser(JSON.parse(userData))
-          }
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
+          setUser(mapSupabaseUser(session.user))
         }
       } catch (error) {
-        console.error('Auth check failed:', error)
-        localStorage.removeItem('auth_token')
-        localStorage.removeItem('user_data')
+        console.error('Error getting session:', error)
       } finally {
         setIsLoading(false)
       }
     }
 
-    checkAuth()
+    getInitialSession()
+
+    // Listen for auth state changes (login, logout, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session?.user) {
+          setUser(mapSupabaseUser(session.user))
+        } else {
+          setUser(null)
+          setIsEditMode(false)
+        }
+        setIsLoading(false)
+      }
+    )
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   const login = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
     try {
       setIsLoading(true)
-      
-      // Simulate API call - replace with actual API endpoint
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
 
-      const data = await response.json()
-
-      if (data.success) {
-        setUser(data.user)
-        localStorage.setItem('auth_token', data.token)
-        localStorage.setItem('user_data', JSON.stringify(data.user))
-        return { success: true, message: 'Login successful' }
-      } else {
-        return { success: false, message: data.message || 'Login failed' }
+      if (error) {
+        return { success: false, message: error.message }
       }
+
+      if (data.user) {
+        setUser(mapSupabaseUser(data.user))
+        return { success: true, message: 'Login successful' }
+      }
+
+      return { success: false, message: 'Login failed' }
     } catch (error) {
       console.error('Login error:', error)
       return { success: false, message: 'Network error. Please try again.' }
@@ -85,26 +110,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signup = async (name: string, email: string, password: string): Promise<{ success: boolean; message: string }> => {
     try {
       setIsLoading(true)
-      
-      // Simulate API call - replace with actual API endpoint
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+          },
         },
-        body: JSON.stringify({ name, email, password }),
       })
 
-      const data = await response.json()
-
-      if (data.success) {
-        setUser(data.user)
-        localStorage.setItem('auth_token', data.token)
-        localStorage.setItem('user_data', JSON.stringify(data.user))
-        return { success: true, message: 'Account created successfully' }
-      } else {
-        return { success: false, message: data.message || 'Signup failed' }
+      if (error) {
+        return { success: false, message: error.message }
       }
+
+      if (data.user) {
+        // Check if email confirmation is required
+        if (data.user.identities?.length === 0) {
+          return { success: false, message: 'This email is already registered. Please sign in instead.' }
+        }
+
+        // If email confirmation is disabled, user is immediately logged in
+        if (data.session) {
+          setUser(mapSupabaseUser(data.user))
+          return { success: true, message: 'Account created successfully!' }
+        }
+
+        // If email confirmation is enabled
+        return { success: true, message: 'Account created! Please check your email to confirm your account.' }
+      }
+
+      return { success: false, message: 'Signup failed' }
     } catch (error) {
       console.error('Signup error:', error)
       return { success: false, message: 'Network error. Please try again.' }
@@ -113,11 +150,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut()
     setUser(null)
     setIsEditMode(false)
-    localStorage.removeItem('auth_token')
-    localStorage.removeItem('user_data')
   }
 
   const toggleEditMode = () => {
