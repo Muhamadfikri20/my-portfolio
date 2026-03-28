@@ -1,0 +1,336 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for Theme System */
+:root {
+    --color-primary: #3b82f6;
+    --color-secondary: #6366f1;
+    --color-accent: #8b5cf6;
+    --color-background: #ffffff;
+    --color-surface: #f8fafc;
+    --color-text: #1e293b;
+    --color-text-secondary: #64748b;
+    --color-border: #e2e8f0;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+}
+
+/* Theme-aware utility classes */
+.theme-primary {
+    color: var(--color-primary);
+}
+
+.theme-primary-bg {
+    background-color: var(--color-primary);
+}
+
+.theme-secondary {
+    color: var(--color-secondary);
+}
+
+.theme-secondary-bg {
+    background-color: var(--color-secondary);
+}
+
+.theme-accent {
+    color: var(--color-accent);
+}
+
+.theme-accent-bg {
+    background-color: var(--color-accent);
+}
+
+.theme-background {
+    background-color: var(--color-background);
+}
+
+.theme-surface {
+    background-color: var(--color-surface);
+}
+
+.theme-text {
+    color: var(--color-text);
+}
+
+.theme-text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.theme-border {
+    border-color: var(--color-border);
+}
+
+.theme-success {
+    color: var(--color-success);
+}
+
+.theme-warning {
+    color: var(--color-warning);
+}
+
+.theme-error {
+    color: var(--color-error);
+}
+
+/* Dark theme overrides */
+.dark {
+    --color-primary: #60a5fa;
+    --color-secondary: #818cf8;
+    --color-accent: #a78bfa;
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-text: #f1f5f9;
+    --color-text-secondary: #cbd5e1;
+    --color-border: #334155;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+}
+
+/* Smooth transitions for theme switching */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+/* Focus styles */
+*:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive typography */
+.text-responsive {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.heading-responsive {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* Custom button styles */
+.btn-primary {
+    @apply bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors;
+}
+
+.btn-secondary {
+    @apply bg-neutral-200 text-neutral-800 px-4 py-2 rounded-md hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 transition-colors;
+}
+
+.btn-outline {
+    @apply border border-primary-600 text-primary-600 px-4 py-2 rounded-md hover:bg-primary-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors;
+}
+
+/* Custom input styles */
+.input-field {
+    @apply w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors;
+}
+
+.input-field:focus {
+    @apply border-primary-500;
+}
+
+/* Custom card styles */
+.card {
+    @apply bg-white border border-neutral-200 rounded-lg p-4 lg:p-6 shadow-sm hover:shadow-md transition-all duration-200;
+    @apply dark:bg-neutral-800 dark:border-neutral-700 dark:hover:shadow-lg;
+}
+
+/* Custom sidebar styles */
+.sidebar-nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition-colors duration-200;
+    @apply dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-100;
+}
+
+.sidebar-nav-item.active {
+    @apply bg-primary-50 text-primary-600 hover:bg-primary-50 hover:text-primary-600;
+    @apply dark:bg-primary-900 dark:bg-opacity-50 dark:text-primary-400 dark:hover:bg-primary-900 dark:hover:bg-opacity-50 dark:hover:text-primary-400;
+}
+
+.skill-badge {
+    @apply inline-flex items-center gap-2 px-2 py-1 bg-neutral-100 rounded text-xs font-medium text-neutral-700;
+    @apply dark:bg-neutral-700 dark:text-neutral-300;
+}
+
+.stats-card {
+    @apply flex items-center gap-3;
+}
+
+/* Mobile specific improvements */
+@media (max-width: 640px) {
+    .card {
+        @apply p-4;
+    }
+
+    .sidebar-nav-item {
+        @apply px-4 py-3;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .card {
+        border-width: 2px;
+    }
+
+    .btn-primary {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode specific styles */
+.dark {
+    color-scheme: dark;
+}
+
+.dark .card {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+.dark .sidebar-nav-item {
+    color: #cbd5e1;
+}
+
+.dark .sidebar-nav-item:hover {
+    background-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark .skill-badge {
+    background-color: #374151;
+    color: #d1d5db;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Focus styles for dark mode */
+.dark *:focus {
+    outline-color: #60a5fa;
+}
+
+/* Selection styles for dark mode */
+.dark ::selection {
+    background-color: #3b82f6;
+    color: #f1f5f9;
+}
+
+/* Custom utilities */
+.text-gradient {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

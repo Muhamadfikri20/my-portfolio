@@ -1,0 +1,307 @@
+{
+    "designSystem": {
+      "name": "Modern Portfolio Interface",
+      "version": "1.0.0",
+      "description": "Clean, professional portfolio design system with sidebar navigation and content grid layout"
+    },
+    "layout": {
+      "structure": "sidebar + main content",
+      "sidebar": {
+        "position": "fixed left",
+        "width": "240px",
+        "background": "light gray/white",
+        "padding": "16px"
+      },
+      "mainContent": {
+        "marginLeft": "240px",
+        "padding": "24px 32px",
+        "background": "white"
+      },
+      "grid": {
+        "type": "css-grid",
+        "columns": "repeat(auto-fit, minmax(300px, 1fr))",
+        "gap": "24px"
+      }
+    },
+    "typography": {
+      "primary": {
+        "fontFamily": "system-ui, -apple-system, sans-serif",
+        "fontWeight": {
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700
+        }
+      },
+      "scale": {
+        "xs": "12px",
+        "sm": "14px",
+        "base": "16px",
+        "lg": "18px",
+        "xl": "20px",
+        "2xl": "24px",
+        "3xl": "30px"
+      },
+      "lineHeight": {
+        "tight": 1.25,
+        "normal": 1.5,
+        "relaxed": 1.75
+      }
+    },
+    "colors": {
+      "neutral": {
+        "50": "#f9fafb",
+        "100": "#f3f4f6",
+        "200": "#e5e7eb",
+        "300": "#d1d5db",
+        "400": "#9ca3af",
+        "500": "#6b7280",
+        "600": "#4b5563",
+        "700": "#374151",
+        "800": "#1f2937",
+        "900": "#111827"
+      },
+      "primary": {
+        "50": "#eff6ff",
+        "500": "#3b82f6",
+        "600": "#2563eb",
+        "700": "#1d4ed8"
+      },
+      "semantic": {
+        "success": "#10b981",
+        "warning": "#f59e0b",
+        "error": "#ef4444",
+        "info": "#06b6d4"
+      }
+    },
+    "components": {
+      "header": {
+        "structure": "flex justify-between items-center",
+        "height": "64px",
+        "padding": "0 32px",
+        "background": "white",
+        "borderBottom": "1px solid neutral-200",
+        "elements": {
+          "logo": {
+            "fontSize": "xl",
+            "fontWeight": "bold",
+            "color": "neutral-900"
+          },
+          "navigation": {
+            "display": "flex",
+            "gap": "32px",
+            "fontSize": "sm",
+            "fontWeight": "medium"
+          },
+          "actions": {
+            "display": "flex",
+            "gap": "16px",
+            "alignItems": "center"
+          }
+        }
+      },
+      "sidebar": {
+        "structure": "vertical navigation menu",
+        "background": "neutral-50",
+        "elements": {
+          "searchBox": {
+            "width": "100%",
+            "padding": "8px 12px",
+            "background": "white",
+            "border": "1px solid neutral-200",
+            "borderRadius": "6px",
+            "fontSize": "sm"
+          },
+          "navigationItems": {
+            "padding": "8px 12px",
+            "borderRadius": "6px",
+            "fontSize": "sm",
+            "fontWeight": "medium",
+            "hover": {
+              "background": "neutral-100"
+            },
+            "active": {
+              "background": "primary-50",
+              "color": "primary-600"
+            }
+          }
+        }
+      },
+      "card": {
+        "structure": "content container with optional header and body",
+        "background": "white",
+        "border": "1px solid neutral-200",
+        "borderRadius": "8px",
+        "padding": "24px",
+        "shadow": "0 1px 3px rgba(0,0,0,0.1)",
+        "elements": {
+          "header": {
+            "display": "flex",
+            "justifyContent": "space-between",
+            "alignItems": "flex-start",
+            "marginBottom": "16px"
+          },
+          "title": {
+            "fontSize": "lg",
+            "fontWeight": "semibold",
+            "color": "neutral-900",
+            "marginBottom": "4px"
+          },
+          "subtitle": {
+            "fontSize": "sm",
+            "color": "neutral-600",
+            "marginBottom": "16px"
+          },
+          "content": {
+            "fontSize": "sm",
+            "color": "neutral-700",
+            "lineHeight": "relaxed"
+          }
+        }
+      },
+      "skillBadge": {
+        "structure": "inline technology/skill indicator",
+        "display": "inline-flex",
+        "alignItems": "center",
+        "gap": "8px",
+        "padding": "4px 8px",
+        "background": "neutral-100",
+        "borderRadius": "4px",
+        "fontSize": "xs",
+        "fontWeight": "medium",
+        "elements": {
+          "icon": {
+            "width": "16px",
+            "height": "16px"
+          },
+          "label": {
+            "color": "neutral-700"
+          }
+        }
+      },
+      "statsCard": {
+        "structure": "metric display with icon and numbers",
+        "display": "flex",
+        "alignItems": "center",
+        "gap": "12px",
+        "elements": {
+          "icon": {
+            "width": "24px",
+            "height": "24px",
+            "color": "primary-500"
+          },
+          "content": {
+            "title": {
+              "fontSize": "sm",
+              "fontWeight": "medium",
+              "color": "neutral-900"
+            },
+            "value": {
+              "fontSize": "2xl",
+              "fontWeight": "bold",
+              "color": "neutral-900"
+            },
+            "subtitle": {
+              "fontSize": "xs",
+              "color": "neutral-500"
+            }
+          }
+        }
+      }
+    },
+    "spacing": {
+      "scale": {
+        "xs": "4px",
+        "sm": "8px",
+        "md": "16px",
+        "lg": "24px",
+        "xl": "32px",
+        "2xl": "48px",
+        "3xl": "64px"
+      },
+      "sections": {
+        "cardPadding": "24px",
+        "sectionGap": "32px",
+        "itemGap": "16px"
+      }
+    },
+    "patterns": {
+      "contentSections": {
+        "structure": "title + description + grid of cards",
+        "title": {
+          "fontSize": "2xl",
+          "fontWeight": "bold",
+          "marginBottom": "8px"
+        },
+        "description": {
+          "fontSize": "base",
+          "color": "neutral-600",
+          "marginBottom": "24px"
+        },
+        "grid": {
+          "display": "grid",
+          "gridTemplateColumns": "repeat(auto-fit, minmax(300px, 1fr))",
+          "gap": "24px"
+        }
+      },
+      "experienceTimeline": {
+        "structure": "years of experience with timeline indicators",
+        "display": "flex",
+        "gap": "32px",
+        "elements": {
+          "timelineItem": {
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "textAlign": "center"
+          }
+        }
+      }
+    },
+    "interactions": {
+      "hover": {
+        "cards": "subtle elevation increase, shadow enhancement",
+        "buttons": "background color change, slight scale",
+        "links": "color change to primary"
+      },
+      "focus": {
+        "inputs": "border color to primary, outline ring",
+        "buttons": "outline ring in primary color"
+      },
+      "active": {
+        "navigationItems": "background change, color change"
+      }
+    },
+    "responsive": {
+      "breakpoints": {
+        "sm": "640px",
+        "md": "768px",
+        "lg": "1024px",
+        "xl": "1280px"
+      },
+      "behavior": {
+        "sidebar": {
+          "mobile": "convert to overlay/drawer",
+          "tablet": "maintain fixed positioning"
+        },
+        "grid": {
+          "mobile": "single column",
+          "tablet": "2 columns",
+          "desktop": "3+ columns based on content"
+        }
+      }
+    },
+    "accessibility": {
+      "colorContrast": "WCAG AA compliant",
+      "focusManagement": "visible focus indicators",
+      "semanticHTML": "proper heading hierarchy, landmarks",
+      "keyboardNavigation": "all interactive elements accessible"
+    },
+    "implementation": {
+      "framework": "modern CSS (Grid, Flexbox)",
+      "methodology": "component-based architecture",
+      "stateManagement": "minimal, component-level state",
+      "icons": "consistent icon library (16px, 20px, 24px sizes)",
+      "animations": "subtle, performance-conscious transitions"
+    }
+  }
