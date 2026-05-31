@@ -1,212 +1,169 @@
-# Rheyno Apria Pratama - Portfolio Website
+# Rheyno Apria Pratama — Portfolio (v2 hgis-vue)
 
-A modern, responsive portfolio website showcasing the professional experience, projects, and knowledge base of Rheyno Apria Pratama, a Software Engineer with 5+ years of experience in backend development and infrastructure.
+Modern, responsive portfolio website built on **Vue 3 SPA + Bun + Vite + Pinia + Tailwind 4** — the hgis-vue stack.
 
-## 🚀 Features
+> v2.0.0 migrated from Next.js 14 + React + TypeScript. Original code preserved on branch `archive/nextjs-original`.
 
-### 📱 Responsive Design
-- Fixed sidebar navigation with beautiful profile section
-- Mobile-responsive layout following modern UI/UX principles
-- Smooth transitions and hover effects
-- Clean, professional design system
+---
 
-### 🏗️ Architecture
-- **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS with custom design system
-- **Icons**: Lucide React for consistent iconography
-- **TypeScript**: Full type safety throughout the application
-- **Component Architecture**: Modular, reusable React components
+## Stack
 
-### 📄 Three Main Sections
+| Layer | Tech |
+|-------|------|
+| Framework | Vue 3.5 SPA (Composition API + `<script setup>`) |
+| Runtime | Bun 1.3+ |
+| Bundler | Vite 7 |
+| Router | Vue Router 5 |
+| State | Pinia 3 (setup stores) |
+| Styling | Tailwind 4 (CSS-first via `@tailwindcss/vite`) + `tw-animate-css` |
+| UI primitives | Radix Vue + Reka UI + class-variance-authority + clsx + tailwind-merge |
+| Icons | lucide-vue-next |
+| Auth | Supabase JS |
+| Validation | zod |
+| Language | JavaScript (no TypeScript) |
+| Lint | oxlint + ESLint 9 flat config + plugin-vue |
 
-#### 1. Resume Section
-- **Professional Experience**: Detailed work history with achievements
-- **Technical Skills**: Visual skill bars for backend, infrastructure, and database technologies
-- **Education**: Academic background and certifications
-- **Interactive Elements**: Hover effects and smooth animations
+---
 
-#### 2. Showcase Section
-- **Project Portfolio**: 6+ backend and infrastructure projects
-- **Filter System**: Category-based project filtering
-- **Project Details**: Technologies used, key highlights, and links
-- **Statistics Dashboard**: Project metrics and achievements
-- **Status Indicators**: Production, Open Source, and Prototype project status
+## Features
 
-#### 3. Knowledge Base Section
-- **Technical Articles**: In-depth backend and infrastructure articles
-- **Search & Filter**: Advanced content discovery
-- **Featured Content**: Highlighted articles and tutorials
-- **Quick Tutorials**: Step-by-step guides
-- **Newsletter Signup**: Stay updated with new content
-- **Popular Tags**: Easy topic navigation
+- **3 routes** — `/resume`, `/showcase`, `/knowledge` (URL-based, browser back/forward, bookmarkable)
+- **4 themes × dark/light = 8 variants** — Classic, Ocean Breeze, Forest Green, Sunset Glow
+- **3 languages** — English, Bahasa Indonesia, Arabic (with RTL auto-flip)
+- **Auth** — Supabase login/signup; admin role via email match `VITE_ADMIN_EMAIL`
+- **Edit mode** — admin-only inline editing (in-memory, not persistent)
+- **Prayer Times widget** — RapidAPI MuslimSalat with 10-min localStorage cache
+- **Animated greeting** — 10 multilingual greetings rotating every 2.5s
 
-## 🛠️ Technical Stack
+---
 
-### Frontend
-- **Next.js 14**: React framework with App Router
-- **TypeScript**: Type-safe development
-- **Tailwind CSS**: Utility-first CSS framework
-- **Lucide React**: Modern icon library
-
-### Design System
-- **Colors**: Custom neutral and primary color palette
-- **Typography**: System fonts with multiple scales
-- **Components**: Card-based layout with consistent spacing
-- **Animations**: Subtle transitions and hover effects
-
-### Key Technologies Showcased
-- **Backend**: Python, Java, Node.js, Go
-- **Infrastructure**: AWS, Docker, Kubernetes, Terraform
-- **Databases**: PostgreSQL, MongoDB, Redis, Elasticsearch
-- **DevOps**: CI/CD, GitOps, Monitoring, Observability
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn package manager
+- Bun 1.3+ (`curl -fsSL https://bun.sh/install | bash`)
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/rheynoapria/portfolio.git
-   cd portfolio
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
+### Install & Run
 
 ```bash
-npm run build
-npm start
+bun install
+bun run dev          # http://localhost:5000
 ```
 
-## 📁 Project Structure
+### Build
 
-```
-portfolio/
-├── app/                          # Next.js App Router
-│   ├── globals.css              # Global styles and Tailwind
-│   ├── layout.tsx               # Root layout component
-│   └── page.tsx                 # Main page component
-├── components/                   # React components
-│   ├── Header.tsx               # Header with social links
-│   ├── PortfolioLayout.tsx      # Main layout with sidebar
-│   ├── Sidebar.tsx              # Navigation sidebar
-│   └── sections/                # Section components
-│       ├── ResumeSection.tsx    # Professional resume
-│       ├── ShowcaseSection.tsx  # Project portfolio
-│       └── KnowledgeBaseSection.tsx # Articles & tutorials
-├── Design.json                  # Design system specifications
-├── tailwind.config.js          # Tailwind configuration
-├── tsconfig.json               # TypeScript configuration
-├── next.config.js              # Next.js configuration
-└── package.json                # Dependencies and scripts
+```bash
+bun run build        # output: dist/
+bun run preview      # preview production build locally
 ```
 
-## 🎨 Design System
+### Lint
 
-The portfolio follows a comprehensive design system defined in `Design.json`:
+```bash
+bun run lint         # oxlint + eslint (auto-fix)
+```
 
-### Color Palette
-- **Neutral**: 50-900 shades for text and backgrounds
-- **Primary**: Blue tones for interactive elements
-- **Semantic**: Success, warning, error, and info colors
+---
 
-### Typography
-- **Font Family**: System fonts for optimal performance
-- **Scale**: xs (12px) to 3xl (30px)
-- **Weights**: Regular, Medium, Semibold, Bold
+## Environment Variables
 
-### Components
-- **Cards**: Consistent padding and shadows
-- **Skill Badges**: Technology tags
-- **Navigation**: Sidebar with active states
-- **Stats Cards**: Metric displays with icons
+Create `.env.local`:
 
-## 🔧 Customization
+```env
+VITE_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+VITE_SUPABASE_ANON_KEY=YOUR_ANON_KEY
+VITE_ADMIN_EMAIL=admin@example.com
+VITE_RAPIDAPI_KEY=YOUR_RAPIDAPI_KEY    # optional: enable Prayer widget
+```
 
-### Personal Information
-Update personal details in the following components:
-- `components/Sidebar.tsx` - Profile information
-- `components/Header.tsx` - Social links and contact
-- `components/sections/ResumeSection.tsx` - Work experience and skills
+> Vite bakes `VITE_*` vars at build time. Server-side secrets are NOT supported in this SPA — use a serverless function or companion server if needed.
 
-### Content Management
-- **Projects**: Modify the `projects` array in `ShowcaseSection.tsx`
-- **Articles**: Update the `articles` array in `KnowledgeBaseSection.tsx`
-- **Skills**: Adjust skill levels and technologies in `ResumeSection.tsx`
+---
 
-### Styling
-- **Colors**: Modify `tailwind.config.js` for custom color schemes
-- **Components**: Update `app/globals.css` for component styles
-- **Layout**: Adjust spacing and sizing in component files
+## Project Structure
 
-## 📊 Performance Features
+```
+my-portfolio/
+├── index.html                       # Vite entry
+├── src/
+│   ├── main.js                      # createApp + pinia + router + main.css
+│   ├── App.vue                      # <router-view/>
+│   ├── assets/main.css              # Tailwind 4 + 8 theme variants + utility helpers
+│   ├── components/
+│   │   ├── ui/                      # shadcn-style: Button, Card, Badge
+│   │   ├── layout/                  # Sidebar, Header
+│   │   └── widgets/                 # AnimatedGreeting, AuthModal, EditableText, LanguageSwitcher, ThemeSwitcher, ThemeToggle, PrayerTimeCountdown
+│   ├── composables/                 # useTranslations, usePrayerTimes
+│   ├── config/                      # constants, api.endpoints
+│   ├── data/                        # skills, projects, articles (hardcoded content)
+│   ├── layouts/DefaultLayout.vue    # Sidebar + Header + <router-view/>
+│   ├── lib/                         # supabase, utils (cn helper)
+│   ├── locales/                     # en.json, id.json, ar.json
+│   ├── router/index.js              # Vue Router 5 routes
+│   ├── services/                    # authService, prayerService
+│   ├── stores/                      # auth, theme, language (Pinia setup stores)
+│   └── views/                       # ResumeView, ShowcaseView, KnowledgeView
+├── public/                          # static assets
+├── Dockerfile                       # Bun build → nginx serve dist
+├── nginx.conf                       # SPA history fallback + gzip + cache headers
+├── docker-compose.yml
+├── vite.config.js
+├── jsconfig.json
+├── eslint.config.js
+├── .oxlintrc.json
+└── package.json
+```
 
-- **Static Site Generation**: Optimized build output
-- **Image Optimization**: Next.js Image component ready
-- **Font Optimization**: System font stack for fast loading
-- **CSS Optimization**: Tailwind purging for minimal bundle size
-- **Component Lazy Loading**: Efficient resource usage
+---
 
-## 🌐 Deployment
+## Architecture
 
-### Vercel (Recommended)
-1. Push to GitHub repository
-2. Connect to Vercel
-3. Deploy automatically
+Single-architecture **Pinia setup stores** + **composables** consuming **services** consuming **lib/Supabase**.
 
-### Other Platforms
-- **Netlify**: Static site hosting
-- **AWS Amplify**: Full-stack deployment
-- **Docker**: Containerized deployment
+```
+View / Widget
+    ↓ uses
+Composable (useX) + Pinia Store (useXStore)
+    ↓ delegates side effects to
+Service (authService / prayerService)
+    ↓ uses
+lib (supabase, utils) + config (endpoints, constants)
+```
 
-## 📈 SEO & Accessibility
+See `ARCHITECTURE.md` for the full diagram.
 
-- **Meta Tags**: Comprehensive SEO metadata
-- **Semantic HTML**: Proper heading hierarchy
-- **Keyboard Navigation**: Full accessibility support
-- **Color Contrast**: WCAG AA compliant
-- **Screen Reader**: Optimized for assistive technologies
+---
 
-## 🤝 Contributing
+## Deployment
 
-This is a personal portfolio project, but suggestions and improvements are welcome:
+### Docker (recommended)
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+```bash
+docker build \
+  --build-arg VITE_SUPABASE_URL=... \
+  --build-arg VITE_SUPABASE_ANON_KEY=... \
+  --build-arg VITE_ADMIN_EMAIL=... \
+  --build-arg VITE_RAPIDAPI_KEY=... \
+  -t my-portfolio .
+docker run -p 80:80 my-portfolio
 
-## 📞 Contact
+# or via docker-compose with .env file:
+docker-compose up -d
+```
 
-**Rheyno Apria Pratama**
+### Vercel / Netlify
+
+Both auto-detect Vite. Set `VITE_*` env vars in dashboard. Build command: `bun run build` (or `npm run build` if Bun unavailable in build env). Output: `dist/`.
+
+---
+
+## Contact
+
 - Email: rheyno.apria@example.com
 - GitHub: [github.com/rheynoapria](https://github.com/rheynoapria)
 - LinkedIn: [linkedin.com/in/rheynoapria](https://linkedin.com/in/rheynoapria)
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ---
 
-**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS** 
+## License
+
+MIT.
