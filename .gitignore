@@ -26,13 +26,19 @@ Thumbs.db
 .vscode
 
 
-# Node.js #
+# Node.js / Bun #
 ###########
 node_modules/
+.bun-cache/
 
-# Next.js #
+# Next.js (legacy — kept for archive branch) #
 ###########
 .next/
+
+# Vite / Vue build output #
+###########
+dist/
+.eslintcache
 
 # Environment variables #
 .env

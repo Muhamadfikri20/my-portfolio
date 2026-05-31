@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/*
+ * Phase 1 minimal CSS — full theme tokens & 4-theme CSS custom properties
+ * akan diisi di Phase 2.
+ */
+
+html, body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}

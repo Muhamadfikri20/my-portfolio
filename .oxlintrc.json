@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["vue"],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": [
+    "dist/**",
+    "node_modules/**",
+    ".next/**",
+    "app/**",
+    "components/**",
+    "contexts/**",
+    "hooks/**",
+    "lib/**",
+    "presentation/**",
+    "application/**",
+    "domain/**",
+    "infrastructure/**",
+    "messages/**"
+  ]
+}
