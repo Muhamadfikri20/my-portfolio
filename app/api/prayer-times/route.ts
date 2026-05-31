@@ -5,7 +5,7 @@ export async function GET() {
     const response = await fetch('https://muslimsalat.p.rapidapi.com/Jakarta.json', {
       method: 'GET',
       headers: {
-        'x-rapidapi-key': '80620b776amshef022486bd4c010p1dc09cjsna3396e80ea37',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY || '',
         'x-rapidapi-host': 'muslimsalat.p.rapidapi.com'
       }
     })

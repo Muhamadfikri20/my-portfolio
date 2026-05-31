@@ -1,0 +1,135 @@
+{
+    "common": {
+        "resume": "Resume",
+        "showcase": "Portofolio",
+        "knowledge": "Basis Pengetahuan",
+        "downloadResume": "Unduh Resume",
+        "cv": "CV",
+        "email": "Email",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "openMenu": "Buka menu",
+        "closeMenu": "Tutup menu",
+        "switchToDarkMode": "Beralih ke mode gelap",
+        "switchToLightMode": "Beralih ke mode terang"
+    },
+    "header": {
+        "resume": {
+            "title": "Resume",
+            "subtitle": "Pengalaman profesional dan keahlian"
+        },
+        "showcase": {
+            "title": "Portofolio",
+            "subtitle": "Proyek dan portofolio"
+        },
+        "knowledge": {
+            "title": "Basis Pengetahuan",
+            "subtitle": "Artikel dan wawasan"
+        },
+        "default": {
+            "title": "Portofolio",
+            "subtitle": "Selamat datang di profil profesional saya"
+        }
+    },
+    "sidebar": {
+        "profile": {
+            "name": "Rheyno Apria Pratama",
+            "title": "Software Engineer",
+            "experience": "4+ Tahun Pengalaman"
+        },
+        "navigation": {
+            "resume": {
+                "label": "Resume",
+                "description": "Pengalaman profesional dan keahlian"
+            },
+            "showcase": {
+                "label": "Portofolio",
+                "description": "Proyek dan portofolio"
+            },
+            "knowledge": {
+                "label": "Basis Pengetahuan",
+                "description": "Artikel dan wawasan"
+            }
+        },
+        "footer": {
+            "portfolio": "Portofolio",
+            "copyright": "© 2024 Rheyno Apria Pratama"
+        }
+    },
+    "resume": {
+        "greeting": "Halo",
+        "introduction": "Saya Rheyno Apria",
+        "description": "Senior Software Engineer yang mengkhususkan diri dalam Backend Development & Infrastructure. Saya suka membangun sistem yang dapat diskalakan dan membantu tim memberikan solusi perangkat lunak yang luar biasa. Sangat bersemangat tentang clean code dan praktik DevOps modern.",
+        "location": "Jakarta, Indonesia",
+        "experience": "4+ Tahun Pengalaman",
+        "expertise": "Ahli Backend & Infrastructure",
+        "sections": {
+            "experience": "Pengalaman Profesional",
+            "education": "Pendidikan",
+            "skills": "Keahlian Teknis",
+            "certifications": "Sertifikasi"
+        },
+        "skills": {
+            "backend": "Backend Development",
+            "infrastructure": "Infrastructure & DevOps",
+            "databases": "Database",
+            "tools": "Tools & Lainnya"
+        },
+        "achievements": "Pencapaian Utama:",
+        "experiences": [{
+                "title": "Senior Software Engineer",
+                "company": "Tech Solutions Inc.",
+                "location": "Jakarta, Indonesia",
+                "period": "2022 - Sekarang",
+                "description": "Memimpin inisiatif pengembangan backend, merancang solusi infrastruktur yang dapat diskalakan, dan membimbing developer junior.",
+                "achievements": [
+                    "Merancang dan mengimplementasikan arsitektur microservices yang melayani 1M+ pengguna",
+                    "Mengurangi waktu respons sistem sebesar 40% melalui optimasi performa",
+                    "Memimpin tim 5 engineer dalam memodernisasi sistem legacy"
+                ]
+            },
+            {
+                "title": "Software Engineer",
+                "company": "Digital Innovation Co.",
+                "location": "Jakarta, Indonesia",
+                "period": "2020 - 2022",
+                "description": "Mengembangkan dan memelihara layanan backend, mengoptimalkan performa database, dan mengimplementasikan pipeline CI/CD.",
+                "achievements": [
+                    "Membangun RESTful API yang menangani 100K+ permintaan harian",
+                    "Mengotomatisasi proses deployment mengurangi waktu deployment sebesar 70%",
+                    "Mengimplementasikan sistem monitoring dan logging meningkatkan keandalan sistem"
+                ]
+            },
+            {
+                "title": "Backend Developer",
+                "company": "StartupTech",
+                "location": "Jakarta, Indonesia",
+                "period": "2019 - 2020",
+                "description": "Fokus pada pengembangan backend, optimasi database, dan setup infrastruktur.",
+                "achievements": [
+                    "Mengembangkan fitur backend inti untuk aplikasi fintech",
+                    "Mengoptimalkan query database meningkatkan performa sebesar 50%",
+                    "Menyiapkan infrastruktur produksi di AWS"
+                ]
+            }
+        ],
+        "education": [{
+                "degree": "Sarjana Teknik Informatika",
+                "institution": "Universitas Gunadarma",
+                "period": "2016 - 2020",
+                "gpa": "3.5/4.0"
+            },
+            {
+                "degree": "Teknik Komputer Jaringan",
+                "institution": "SMK Plus Bina Prestasi",
+                "period": "2013 - 2016",
+                "gpa": "-"
+            }
+        ],
+        "certifications": [
+            "AWS Certified Solutions Architect",
+            "Kubernetes Administrator (CKA)",
+            "Google Cloud Professional Cloud Architect"
+        ]
+    }
+}
