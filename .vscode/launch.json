@@ -1,0 +1,57 @@
+{
+    // Stack: Vue 3 + Bun + Vite 7 (hgis-vue standard, v2.0.0)
+    // - "Vue: full stack"      → run Vite + auto-launch Chrome when server is ready (default F5)
+    // - "Vite: dev server only" → just run dev server, no browser
+    // - "Vue: debug in Chrome"  → attach to localhost:5000 (run `bun run dev` first manually)
+    // - "Vite: build"           → debug production build pipeline
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Vue: full stack (Vite + Chrome)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/vite/bin/vite.js",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"],
+            "serverReadyAction": {
+                "pattern": "Local:\\s+(https?://localhost:\\d+/?)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome",
+                "webRoot": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "name": "Vite: dev server only",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/vite/bin/vite.js",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "name": "Vue: debug in Chrome (attach)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}/src",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${webRoot}/*",
+                "webpack:///src/*": "${webRoot}/*",
+                "/src/*": "${webRoot}/*"
+            }
+        },
+        {
+            "name": "Vite: build (production)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/vite/bin/vite.js",
+            "args": ["build"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"]
+        }
+    ]
+}

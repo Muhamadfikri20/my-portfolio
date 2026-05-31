@@ -23,7 +23,12 @@ Thumbs.db
 .pydevproject
 .project
 .settings
-.vscode
+
+# VS Code: ignore personal preferences, but commit shared dev tooling
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 
 
 # Node.js / Bun #
