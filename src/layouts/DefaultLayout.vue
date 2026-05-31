@@ -7,26 +7,23 @@ import { useLanguageStore } from '@/stores/language'
 const sidebarOpen = ref(false)
 const lang = useLanguageStore()
 
-const mainContentClass = computed(() => {
-  return lang.direction === 'rtl'
-    ? 'flex-1 transition-all duration-300 lg:mr-72'
-    : 'flex-1 transition-all duration-300 lg:ml-72'
-})
+const wrapperClass = computed(() => [
+  'min-h-screen bg-background font-sans transition-colors duration-300',
+  lang.direction === 'rtl' ? 'flex flex-row-reverse' : 'flex',
+].join(' '))
 
-const wrapperClass = computed(() => {
-  return [
-    'flex min-h-screen theme-bg transition-colors duration-300',
-    lang.direction === 'rtl' ? 'flex-row-reverse' : '',
-  ].join(' ')
-})
+const mainClass = computed(() => [
+  'flex-1 transition-all duration-300 ease-in-out min-w-0 flex flex-col h-dvh',
+  lang.direction === 'rtl' ? 'lg:mr-72' : 'lg:ml-72',
+].join(' '))
 </script>
 
 <template>
   <div :class="wrapperClass">
-    <!-- Mobile sidebar overlay -->
+    <!-- Mobile overlay -->
     <div
       v-if="sidebarOpen"
-      class="fixed inset-0 top-16 bg-black/50 z-10 lg:hidden"
+      class="fixed inset-0 top-14 bg-black/20 backdrop-blur-sm z-10 lg:hidden"
       @click="sidebarOpen = false"
     />
 
@@ -35,11 +32,41 @@ const wrapperClass = computed(() => {
       @close="sidebarOpen = false"
     />
 
-    <div :class="mainContentClass">
+    <main :class="mainClass">
       <Header @menu-click="sidebarOpen = true" />
-      <main class="px-4 py-6 lg:px-8 pt-20">
-        <router-view />
-      </main>
-    </div>
+      <div class="flex-1 overflow-y-auto">
+        <div class="p-4 lg:p-6 max-w-7xl mx-auto w-full">
+          <router-view v-slot="{ Component, route }">
+            <transition
+              enter-active-class="transition-all duration-300 ease-out"
+              enter-from-class="opacity-0 translate-y-2"
+              enter-to-class="opacity-100 translate-y-0"
+              leave-active-class="transition-all duration-150 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+              mode="out-in"
+            >
+              <component
+                :is="Component"
+                :key="route.path"
+              />
+            </transition>
+          </router-view>
+        </div>
+
+        <footer class="border-t border-border/50 bg-card/50 backdrop-blur-sm">
+          <div class="max-w-7xl mx-auto px-4 lg:px-6 py-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+              <p>© 2026 Rheyno Apria Pratama. All rights reserved.</p>
+              <p>
+                Built with
+                <span class="text-red-500">♥</span>
+                using Vue 3 + Bun + Vite
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
   </div>
 </template>

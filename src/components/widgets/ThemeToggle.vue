@@ -9,16 +9,16 @@ const theme = useThemeStore()
   <button
     type="button"
     aria-label="Toggle dark mode"
-    class="p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+    class="h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
     @click="theme.toggleDarkMode()"
   >
     <Sun
       v-if="theme.isDark"
-      class="w-5 h-5"
+      class="w-4 h-4"
     />
     <Moon
       v-else
-      class="w-5 h-5"
+      class="w-4 h-4"
     />
   </button>
 </template>

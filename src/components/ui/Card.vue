@@ -5,13 +5,15 @@ import { computed } from 'vue'
 const props = defineProps({
   hoverable: { type: Boolean, default: false },
   padded: { type: Boolean, default: true },
+  flat: { type: Boolean, default: false },
 })
 
 const className = computed(() =>
   cn([
-    'rounded-lg border theme-border theme-surface',
+    'bg-card text-card-foreground rounded-xl border border-border',
+    props.flat ? '' : 'shadow-sm',
     props.padded && 'p-6',
-    props.hoverable && 'hover:shadow-md transition-shadow duration-200',
+    props.hoverable && 'card-hover',
   ]),
 )
 </script>

@@ -1,276 +1,193 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 /* ─────────────────────────────────────────────────────────
- * Dark mode variant — class-based (toggled via .dark on <html>)
- * ───────────────────────────────────────────────────────── */
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* ─────────────────────────────────────────────────────────
- * Tailwind 4 design tokens (@theme block)
- * Static palette (Tailwind utility classes) — neutral, primary,
- * semantic. Per-theme dynamic colors via CSS custom properties below.
- * ───────────────────────────────────────────────────────── */
-@theme {
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  /* Static neutral palette (ported from Tailwind 3 config) */
-  --color-neutral-50: #f9fafb;
-  --color-neutral-100: #f3f4f6;
-  --color-neutral-200: #e5e7eb;
-  --color-neutral-300: #d1d5db;
-  --color-neutral-400: #9ca3af;
-  --color-neutral-500: #6b7280;
-  --color-neutral-600: #4b5563;
-  --color-neutral-700: #374151;
-  --color-neutral-800: #1f2937;
-  --color-neutral-900: #111827;
-
-  /* Static primary palette (ported from Tailwind 3 config — used for brand bits) */
-  --color-primary-50: #eff6ff;
-  --color-primary-200: #bfdbfe;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: rgb(47 83 161);
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-
-  /* Semantic colors (static) */
-  --color-semantic-success: #10b981;
-  --color-semantic-warning: #f59e0b;
-  --color-semantic-error: #ef4444;
-  --color-semantic-info: #06b6d4;
-
-  /* Spacing scale */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-  --spacing-3xl: 64px;
-
-  /* Custom font sizes (matching old config) */
-  --text-xs: 12px;
-  --text-sm: 14px;
-  --text-base: 16px;
-  --text-lg: 18px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-3xl: 30px;
-
-  /* Line heights */
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.75;
-}
-
-/* ─────────────────────────────────────────────────────────
- * 11 dynamic CSS custom properties per-theme × dark/light.
- * Class names on <html>: theme-default | theme-ocean | theme-forest | theme-sunset
- * Plus .dark for dark mode.
- * Default state (no .theme-* class) = theme-default light.
+ * hgis-vue design system (Selia-inspired)
+ * Inter font, brand blue oklch primary, soft shadows,
+ * radius 8px, flat look
  * ───────────────────────────────────────────────────────── */
 
-/* ━━━ Theme: Default (Classic) ━━━ */
-:root,
-.theme-default {
-  --color-primary: #2563eb;
-  --color-secondary: #4f46e5;
-  --color-accent: #7c3aed;
-  --color-background: #ffffff;
-  --color-surface: #f8fafc;
-  --color-text: #0f172a;
-  --color-text-secondary: #475569;
-  --color-border: #e2e8f0;
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-error: #dc2626;
-}
-
-.dark,
-.theme-default.dark {
-  --color-primary: #3b82f6;
-  --color-secondary: #6366f1;
-  --color-accent: #8b5cf6;
-  --color-background: #0f172a;
-  --color-surface: #1e293b;
-  --color-text: #f8fafc;
-  --color-text-secondary: #cbd5e1;
-  --color-border: #334155;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-}
-
-/* ━━━ Theme: Ocean Breeze ━━━ */
-.theme-ocean {
-  --color-primary: #0284c7;
-  --color-secondary: #0891b2;
-  --color-accent: #0e7490;
-  --color-background: #ffffff;
-  --color-surface: #f0f9ff;
-  --color-text: #0c4a6e;
-  --color-text-secondary: #0369a1;
-  --color-border: #bae6fd;
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-error: #dc2626;
-}
-
-.theme-ocean.dark {
-  --color-primary: #0ea5e9;
-  --color-secondary: #06b6d4;
-  --color-accent: #0891b2;
-  --color-background: #0c4a6e;
-  --color-surface: #075985;
-  --color-text: #f0f9ff;
-  --color-text-secondary: #bae6fd;
-  --color-border: #0369a1;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #f87171;
-}
-
-/* ━━━ Theme: Forest Green ━━━ */
-.theme-forest {
-  --color-primary: #047857;
-  --color-secondary: #059669;
-  --color-accent: #065f46;
-  --color-background: #ffffff;
-  --color-surface: #f0fdf4;
-  --color-text: #064e3b;
-  --color-text-secondary: #047857;
-  --color-border: #bbf7d0;
-  --color-success: #16a34a;
-  --color-warning: #ca8a04;
-  --color-error: #dc2626;
-}
-
-.theme-forest.dark {
-  --color-primary: #10b981;
-  --color-secondary: #34d399;
-  --color-accent: #059669;
-  --color-background: #064e3b;
-  --color-surface: #065f46;
-  --color-text: #f0fdf4;
-  --color-text-secondary: #bbf7d0;
-  --color-border: #047857;
-  --color-success: #22c55e;
-  --color-warning: #eab308;
-  --color-error: #f87171;
-}
-
-/* ━━━ Theme: Sunset Glow ━━━ */
-.theme-sunset {
-  --color-primary: #ea580c;
-  --color-secondary: #f97316;
-  --color-accent: #dc2626;
-  --color-background: #ffffff;
-  --color-surface: #fff7ed;
-  --color-text: #9a3412;
-  --color-text-secondary: #c2410c;
-  --color-border: #fdba74;
-  --color-success: #16a34a;
-  --color-warning: #eab308;
-  --color-error: #dc2626;
-}
-
-.theme-sunset.dark {
-  --color-primary: #fb923c;
-  --color-secondary: #f97316;
-  --color-accent: #ea580c;
-  --color-background: #9a3412;
-  --color-surface: #c2410c;
-  --color-text: #fff7ed;
-  --color-text-secondary: #fed7aa;
-  --color-border: #ea580c;
-  --color-success: #22c55e;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-}
-
-/* ─────────────────────────────────────────────────────────
- * shadcn-vue compatibility tokens
- * Map portfolio CSS custom properties → shadcn-vue token names.
- * Lets us use shadcn-vue components without rewiring.
- * ───────────────────────────────────────────────────────── */
 :root {
-  --background: var(--color-background);
-  --foreground: var(--color-text);
-  --card: var(--color-surface);
-  --card-foreground: var(--color-text);
-  --popover: var(--color-surface);
-  --popover-foreground: var(--color-text);
-  --primary: var(--color-primary);
-  --primary-foreground: #ffffff;
-  --secondary: var(--color-secondary);
-  --secondary-foreground: #ffffff;
-  --muted: var(--color-surface);
-  --muted-foreground: var(--color-text-secondary);
-  --accent: var(--color-accent);
-  --accent-foreground: #ffffff;
-  --destructive: var(--color-error);
-  --destructive-foreground: #ffffff;
-  --border: var(--color-border);
-  --input: var(--color-border);
-  --ring: var(--color-primary);
+  --font-inter: "Inter", sans-serif;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-inter);
+
+  /* Brand palette — primary #003399 indigo blue scale */
+  --color-brand-50: oklch(0.97 0.02 270);
+  --color-brand-100: oklch(0.93 0.04 270);
+  --color-brand-200: oklch(0.85 0.08 270);
+  --color-brand-300: oklch(0.75 0.13 270);
+  --color-brand-400: oklch(0.62 0.18 270);
+  --color-brand-500: oklch(0.50 0.20 270);
+  --color-brand-600: oklch(0.45 0.20 270);
+  --color-brand-700: oklch(0.38 0.18 270);
+  --color-brand-800: oklch(0.30 0.15 270);
+  --color-brand-900: oklch(0.22 0.10 270);
+
+  /* Selia-inspired tokens */
   --radius: 0.5rem;
+  --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* ─────────────────────────────────────────────────────────
- * Theme-aware utility classes (used in templates)
- * Bridges dynamic CSS vars → utility-style class API.
- * ───────────────────────────────────────────────────────── */
-@layer utilities {
-  .theme-bg { background-color: var(--color-background); }
-  .theme-surface { background-color: var(--color-surface); }
-  .theme-primary { color: var(--color-primary); }
-  .theme-primary-bg { background-color: var(--color-primary); }
-  .theme-secondary { color: var(--color-secondary); }
-  .theme-accent { color: var(--color-accent); }
-  .theme-text { color: var(--color-text); }
-  .theme-text-secondary { color: var(--color-text-secondary); }
-  .theme-border { border-color: var(--color-border); }
-  .theme-success { color: var(--color-success); }
-  .theme-warning { color: var(--color-warning); }
-  .theme-error { color: var(--color-error); }
+/* ─── Light mode tokens ─── */
+:root {
+  /* Z-index scale */
+  --z-dropdown: 40;
+  --z-sticky: 45;
+  --z-modal-backdrop: 50;
+  --z-modal: 51;
+  --z-toast: 60;
 
-  /* Sidebar nav item pattern */
-  .sidebar-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    transition: background-color 150ms, color 150ms;
+  /* Spacing */
+  --spacing-page-x: 1rem;
+  --spacing-page-x-xl: 2rem;
+
+  /* Selia base colors */
+  --background: oklch(98.511% 0.00011 271.152 / 0.875);
+  --foreground: oklch(0.25 0.02 240);
+
+  --card: oklch(100% 0.00011 271.152 / 0.899);
+  --card-foreground: oklch(0.25 0.02 240);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.02 240);
+
+  --primary: oklch(0.45 0.2 270);
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(91.318% 0.04846 236.948);
+  --secondary-foreground: oklch(0.35 0.05 240);
+
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.55 0.03 240);
+
+  --accent: oklch(95.138% 0.01943 240.899);
+  --accent-foreground: oklch(0.35 0.05 240);
+
+  --destructive: oklch(0.6 0.2 20);
+  --destructive-foreground: oklch(1 0 0);
+
+  --success: oklch(0.65 0.15 145);
+  --warning: oklch(0.75 0.15 75);
+
+  --border: oklch(0.92 0.01 240);
+  --input: oklch(0.92 0.01 240);
+  --ring: oklch(0.45 0.2 270);
+
+  --sidebar: oklch(1 0 0);
+  --topbar: oklch(98% 0.005 240);
+  --sidebar-foreground: oklch(0.3 0.02 240);
+  --sidebar-primary: oklch(0.45 0.2 270);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.94 0.02 240);
+  --sidebar-accent-foreground: oklch(0.35 0.05 240);
+  --sidebar-border: oklch(0.92 0.01 240);
+}
+
+/* ─── Dark mode tokens ─── */
+.dark {
+  --background: oklch(0.15 0.02 240);
+  --foreground: oklch(0.95 0.01 240);
+
+  --card: oklch(0.20 0.02 240);
+  --card-foreground: oklch(0.95 0.01 240);
+
+  --popover: oklch(0.20 0.02 240);
+  --popover-foreground: oklch(0.95 0.01 240);
+
+  --primary: oklch(0.65 0.18 270);
+  --primary-foreground: oklch(0.15 0.02 240);
+
+  --secondary: oklch(0.28 0.04 240);
+  --secondary-foreground: oklch(0.95 0.01 240);
+
+  --muted: oklch(0.25 0.02 240);
+  --muted-foreground: oklch(0.65 0.02 240);
+
+  --accent: oklch(0.30 0.04 240);
+  --accent-foreground: oklch(0.95 0.01 240);
+
+  --destructive: oklch(0.65 0.22 20);
+  --destructive-foreground: oklch(0.95 0.01 240);
+
+  --success: oklch(0.70 0.18 145);
+  --warning: oklch(0.78 0.18 75);
+
+  --border: oklch(0.28 0.02 240);
+  --input: oklch(0.28 0.02 240);
+  --ring: oklch(0.65 0.18 270);
+
+  --sidebar: oklch(0.18 0.02 240);
+  --topbar: oklch(0.20 0.02 240);
+  --sidebar-foreground: oklch(0.85 0.02 240);
+  --sidebar-primary: oklch(0.65 0.18 270);
+  --sidebar-primary-foreground: oklch(0.15 0.02 240);
+  --sidebar-accent: oklch(0.25 0.04 240);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
+  --sidebar-border: oklch(0.28 0.02 240);
+}
+
+/* ─── Tailwind 4 inline color tokens (so utilities work: bg-card, text-foreground, etc.) ─── */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-topbar: var(--topbar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+}
+
+/* ─── Base layer ─── */
+@layer base {
+  * {
+    @apply border-border;
   }
-  .sidebar-nav-item:hover {
-    background-color: var(--color-surface);
-    color: var(--color-text);
-  }
-  .sidebar-nav-item.active {
-    background-color: var(--color-primary);
-    color: #ffffff;
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* ─────────────────────────────────────────────────────────
- * Base resets + global typography
- * ───────────────────────────────────────────────────────── */
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  transition: background-color 250ms, color 250ms;
 }
 
 body[dir="rtl"] {
@@ -281,7 +198,97 @@ body[dir="rtl"] {
   min-height: 100vh;
 }
 
-/* Smooth theme transition (avoid jank when switching) */
-* {
-  transition: background-color 150ms, border-color 150ms, color 150ms;
+/* ─── Custom utility classes (hgis-vue patterns) ─── */
+.modern-card {
+  @apply bg-card rounded-md border-none;
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-minimal {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 16px -2px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-soft-md {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 12px 32px -4px rgba(0, 0, 0, 0.1);
+}
+
+.card-hover {
+  @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+}
+
+.input-base {
+  @apply bg-background border border-border text-foreground text-sm rounded-lg block w-full px-3 py-2 transition-all placeholder:text-muted-foreground shadow-sm;
+  outline: none;
+}
+.input-base:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px oklch(0.45 0.2 270 / 0.15);
+}
+
+.sidebar-nav-item {
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors;
+  color: var(--sidebar-foreground);
+}
+.sidebar-nav-item:hover {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+.sidebar-nav-item.active {
+  background: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
+}
+
+/* ─── Custom scrollbar ─── */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.scrollbar-thin:hover {
+  scrollbar-color: oklch(0.75 0 0 / 0.4) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.scrollbar-thin:hover::-webkit-scrollbar-thumb {
+  background: oklch(0.75 0 0 / 0.4);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Animations ─── */
+@keyframes blob {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(30px, -50px) scale(1.1); }
+  66%  { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob {
+  animation: blob 7s infinite;
+}
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+
+/* ─── Responsive font sizing ─── */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  html { font-size: 15px; }
+}
+@media (min-width: 1536px) {
+  html { font-size: 16px; }
 }

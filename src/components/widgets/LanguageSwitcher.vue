@@ -1,5 +1,4 @@
 <script setup>
-// Phase 4 stub — full implementation in Phase 5
 import { useLanguageStore } from '@/stores/language'
 import { LANGUAGE_LABELS, VALID_LANGUAGES } from '@/config/constants'
 
@@ -10,7 +9,7 @@ const lang = useLanguageStore()
   <select
     :value="lang.language"
     aria-label="Language"
-    class="text-sm border theme-border rounded-md px-2 py-1 bg-transparent"
+    class="h-9 px-2 text-xs font-medium border border-border rounded-md bg-background text-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     @change="lang.setLanguage($event.target.value)"
   >
     <option

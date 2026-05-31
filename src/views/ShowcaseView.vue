@@ -23,28 +23,28 @@ function statusVariant(status) {
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="space-y-6">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold theme-text mb-4">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
         Project Showcase
       </h1>
-      <p class="text-lg theme-text-secondary mb-6">
+      <p class="text-base text-muted-foreground max-w-2xl mx-auto">
         A collection of backend systems, infrastructure projects, and technical solutions I've built
       </p>
     </div>
 
     <!-- Filter tabs -->
-    <div class="flex flex-wrap gap-2 mb-8">
+    <div class="flex flex-wrap gap-2 mb-6">
       <button
         v-for="cat in projectCategories"
         :key="cat"
         type="button"
         :class="[
-          'px-4 py-2 text-sm font-medium rounded-lg border transition-colors duration-200',
+          'px-3 py-1.5 text-xs font-medium rounded-md border transition-colors',
           activeCategory === cat
-            ? 'theme-primary-bg text-white border-transparent'
-            : 'theme-border theme-text-secondary hover:theme-primary',
+            ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
+            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent',
         ]"
         @click="activeCategory = cat"
       >
@@ -53,97 +53,96 @@ function statusVariant(status) {
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
       <Card
         v-for="stat in projectStats"
         :key="stat.label"
         class="text-center"
       >
-        <div class="text-2xl font-bold theme-primary mb-2">
+        <div class="text-2xl font-bold text-brand-600 dark:text-brand-400 mb-1">
           {{ stat.value }}
         </div>
-        <div class="text-sm theme-text-secondary">
+        <div class="text-xs text-muted-foreground">
           {{ stat.label }}
         </div>
       </Card>
     </div>
 
     <!-- Projects grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
       <Card
         v-for="project in filteredProjects"
         :key="project.id"
         hoverable
-        class="group"
+        class="group flex flex-col"
       >
         <!-- Preview placeholder -->
-        <div class="w-full h-48 bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-700 dark:to-neutral-600 rounded-lg mb-4 flex items-center justify-center">
-          <div class="theme-text-secondary text-center">
-            <Eye class="w-8 h-8 mx-auto mb-2" />
-            <span class="text-sm">Project Preview</span>
+        <div class="w-full h-40 bg-gradient-to-br from-brand-50 to-brand-100 dark:from-brand-900/40 dark:to-brand-800/20 rounded-lg mb-4 flex items-center justify-center">
+          <div class="text-brand-400 dark:text-brand-500 text-center">
+            <Eye class="w-6 h-6 mx-auto mb-1.5" />
+            <span class="text-xs font-medium">Preview</span>
           </div>
         </div>
 
         <!-- Header -->
-        <div class="mb-4">
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2">
-            <h3 class="text-lg font-semibold theme-text group-hover:theme-primary transition-colors mb-2 sm:mb-0">
+        <div class="mb-3">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
+            <h3 class="text-base font-semibold text-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
               {{ project.title }}
             </h3>
             <Badge
               :variant="statusVariant(project.status)"
-              class="self-start"
+              class="self-start shrink-0"
             >
               {{ project.status }}
             </Badge>
           </div>
-          <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm theme-text-secondary mb-3">
-            <div class="flex items-center gap-1">
-              <Tag class="w-4 h-4" />
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+            <div class="inline-flex items-center gap-1">
+              <Tag class="w-3 h-3" />
               {{ project.category }}
             </div>
-            <div class="flex items-center gap-1">
-              <Calendar class="w-4 h-4" />
+            <div class="inline-flex items-center gap-1">
+              <Calendar class="w-3 h-3" />
               {{ project.year }}
             </div>
           </div>
         </div>
 
-        <!-- Description -->
-        <p class="theme-text text-sm mb-4 line-clamp-3">
+        <p class="text-sm text-muted-foreground mb-3 line-clamp-3 flex-1">
           {{ project.description }}
         </p>
 
         <!-- Highlights -->
-        <div class="mb-4">
-          <h4 class="text-sm font-medium theme-text mb-2">
-            Key Highlights:
+        <div class="mb-3">
+          <h4 class="text-[10px] font-semibold text-foreground uppercase tracking-wider mb-1.5">
+            Highlights
           </h4>
-          <ul class="space-y-1">
+          <ul class="space-y-0.5">
             <li
               v-for="(h, i) in project.highlights"
               :key="i"
-              class="flex items-center gap-2 text-xs theme-text-secondary"
+              class="flex items-center gap-1.5 text-xs text-muted-foreground"
             >
-              <Star class="w-3 h-3 theme-primary flex-shrink-0" />
+              <Star class="w-3 h-3 text-brand-500 dark:text-brand-400 flex-shrink-0" />
               {{ h }}
             </li>
           </ul>
         </div>
 
         <!-- Technologies -->
-        <div class="mb-4 flex flex-wrap gap-1">
+        <div class="mb-3 flex flex-wrap gap-1">
           <Badge
             v-for="tech in project.technologies"
             :key="tech"
-            variant="default"
+            variant="outline"
           >
             {{ tech }}
           </Badge>
         </div>
 
         <!-- Action links -->
-        <div class="flex items-center gap-3 pt-4 border-t theme-border">
+        <div class="flex items-center gap-2 pt-3 border-t border-border">
           <Button
             v-if="project.links.github"
             :as="'a'"
@@ -153,7 +152,7 @@ function statusVariant(status) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Github class="w-4 h-4" />
+            <Github class="w-3.5 h-3.5" />
             Code
           </Button>
           <Button
@@ -165,15 +164,14 @@ function statusVariant(status) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <ExternalLink class="w-4 h-4" />
+            <ExternalLink class="w-3.5 h-3.5" />
             Live Demo
           </Button>
         </div>
       </Card>
     </div>
 
-    <!-- Load more (placeholder — no pagination logic) -->
-    <div class="text-center mt-12">
+    <div class="text-center mt-8">
       <Button variant="secondary">
         Load More Projects
       </Button>

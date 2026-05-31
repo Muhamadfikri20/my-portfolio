@@ -3,12 +3,12 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   Download, Mail, Github, Linkedin, Menu,
-  LogIn, LogOut, User, Edit3, BookOpen,
+  LogIn, LogOut, User, Edit3, BookOpen, ChevronDown,
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useTranslations } from '@/composables/useTranslations'
+import Button from '@/components/ui/Button.vue'
 import LanguageSwitcher from '@/components/widgets/LanguageSwitcher.vue'
-import ThemeSwitcher from '@/components/widgets/ThemeSwitcher.vue'
 import ThemeToggle from '@/components/widgets/ThemeToggle.vue'
 import AuthModal from '@/components/widgets/AuthModal.vue'
 
@@ -36,113 +36,132 @@ function handleLogout() {
   auth.logout()
   showUserMenu.value = false
 }
+
+function getInitials(name) {
+  if (!name) return 'U'
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase()
+}
 </script>
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 h-16 border-b theme-border theme-bg px-4 lg:px-8 flex items-center justify-between z-30 backdrop-blur-sm"
+    class="shrink-0 z-30 bg-topbar/95 backdrop-blur-md h-14 border-b border-border/50 transition-colors duration-300"
   >
-    <div class="flex items-center gap-4">
-      <button
-        type="button"
-        :aria-label="t('common.openMenu')"
-        class="lg:hidden p-2 theme-text-secondary hover:theme-text rounded-md transition-colors"
-        @click="emit('menuClick')"
-      >
-        <Menu class="w-5 h-5" />
-      </button>
+    <div class="flex items-center justify-between px-4 lg:px-6 h-full">
+      <!-- Left: menu toggle + section title -->
+      <div class="flex items-center gap-3 min-w-0">
+        <Button
+          variant="ghost"
+          size="icon"
+          class="lg:hidden -ml-2"
+          :aria-label="t('common.openMenu')"
+          @click="emit('menuClick')"
+        >
+          <Menu class="h-5 w-5" />
+        </Button>
 
-      <div class="flex items-center gap-3">
-        <BookOpen class="w-8 h-8 theme-primary" />
-        <div>
-          <h1 class="text-lg lg:text-xl font-bold theme-text">
-            {{ sectionInfo.title }}
-          </h1>
-          <p class="text-xs lg:text-sm theme-text-secondary hidden sm:block">
-            {{ sectionInfo.subtitle }}
-          </p>
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-9 h-9 rounded-lg bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
+            <BookOpen class="w-5 h-5 text-brand-600 dark:text-brand-400" />
+          </div>
+          <div class="min-w-0">
+            <h1 class="text-sm font-semibold text-foreground leading-tight truncate">
+              {{ sectionInfo.title }}
+            </h1>
+            <p class="text-xs text-muted-foreground hidden sm:block truncate">
+              {{ sectionInfo.subtitle }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="flex items-center gap-2 lg:gap-4">
-      <LanguageSwitcher />
-      <ThemeSwitcher />
-      <ThemeToggle />
+      <!-- Right: utilities + auth -->
+      <div class="flex items-center gap-2 lg:gap-3">
+        <LanguageSwitcher />
+        <ThemeToggle />
 
-      <!-- Social links (desktop only) -->
-      <div class="hidden md:flex items-center gap-1">
-        <a
-          href="mailto:rheyno.apria@example.com"
-          :title="t('common.email')"
-          class="p-2 theme-text-secondary hover:theme-primary rounded-md transition-colors"
-        >
-          <Mail class="w-5 h-5" />
-        </a>
-        <a
-          href="https://github.com/rheynoapria"
-          target="_blank"
-          rel="noopener noreferrer"
-          :title="t('common.github')"
-          class="p-2 theme-text-secondary hover:theme-primary rounded-md transition-colors"
-        >
-          <Github class="w-5 h-5" />
-        </a>
-        <a
-          href="https://linkedin.com/in/rheynoapria"
-          target="_blank"
-          rel="noopener noreferrer"
-          :title="t('common.linkedin')"
-          class="p-2 theme-text-secondary hover:theme-primary rounded-md transition-colors"
-        >
-          <Linkedin class="w-5 h-5" />
-        </a>
-      </div>
-
-      <!-- Auth section -->
-      <template v-if="auth.isAuthenticated">
-        <button
-          v-if="auth.isAdmin"
-          type="button"
-          :title="auth.isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'"
-          :class="[
-            'flex items-center gap-2 px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors',
-            auth.isEditMode
-              ? 'bg-green-600 text-white hover:bg-green-700'
-              : 'theme-surface theme-text hover:opacity-80',
-          ]"
-          @click="auth.toggleEditMode()"
-        >
-          <Edit3 class="w-4 h-4" />
-          <span class="hidden sm:inline">{{ auth.isEditMode ? 'Exit Edit' : 'Edit Mode' }}</span>
-        </button>
-
-        <div class="relative">
-          <button
-            type="button"
-            class="flex items-center gap-2 px-3 py-2 theme-text-secondary hover:theme-text rounded-md transition-colors"
-            @click="showUserMenu = !showUserMenu"
+        <!-- Social links -->
+        <div class="hidden md:flex items-center gap-0.5">
+          <a
+            href="mailto:rheyno.apria@example.com"
+            :title="t('common.email')"
+            class="h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
           >
-            <User class="w-4 h-4" />
-            <span class="hidden sm:inline text-sm">{{ auth.user?.name }}</span>
+            <Mail class="w-4 h-4" />
+          </a>
+          <a
+            href="https://github.com/rheynoapria"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="t('common.github')"
+            class="h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          >
+            <Github class="w-4 h-4" />
+          </a>
+          <a
+            href="https://linkedin.com/in/rheynoapria"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="t('common.linkedin')"
+            class="h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          >
+            <Linkedin class="w-4 h-4" />
+          </a>
+        </div>
+
+        <!-- Auth section -->
+        <template v-if="auth.isAuthenticated">
+          <button
+            v-if="auth.isAdmin"
+            type="button"
+            :title="auth.isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'"
+            :class="[
+              'inline-flex items-center gap-1.5 px-3 h-9 rounded-md text-xs font-medium transition-colors',
+              auth.isEditMode
+                ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+            ]"
+            @click="auth.toggleEditMode()"
+          >
+            <Edit3 class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">{{ auth.isEditMode ? 'Exit Edit' : 'Edit Mode' }}</span>
           </button>
 
-          <div
-            v-if="showUserMenu"
-            class="absolute right-0 mt-2 w-48 theme-surface rounded-md shadow-lg border theme-border z-50"
-          >
-            <div class="py-1">
-              <div class="px-4 py-2 text-sm theme-text border-b theme-border">
-                <div class="font-medium">
+          <div class="relative">
+            <button
+              type="button"
+              class="h-9 inline-flex items-center gap-2 pl-1 pr-2 rounded-full hover:bg-accent transition-colors"
+              @click="showUserMenu = !showUserMenu"
+            >
+              <div class="h-7 w-7 rounded-full bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center text-xs font-bold text-brand-600 dark:text-brand-400 border border-brand-100 dark:border-brand-800">
+                {{ getInitials(auth.user?.name) }}
+              </div>
+              <span class="hidden sm:inline text-xs font-medium text-foreground">
+                {{ auth.user?.name }}
+              </span>
+              <ChevronDown class="w-3.5 h-3.5 text-muted-foreground hidden sm:block" />
+            </button>
+
+            <div
+              v-if="showUserMenu"
+              class="absolute right-0 mt-2 w-56 bg-popover text-popover-foreground rounded-xl border border-border shadow-soft-md z-50 overflow-hidden"
+            >
+              <div class="px-3 py-2.5 border-b border-border/60">
+                <p class="text-sm font-medium text-foreground truncate">
                   {{ auth.user?.name }}
-                </div>
-                <div class="text-xs theme-text-secondary">
+                </p>
+                <p class="text-xs text-muted-foreground truncate">
                   {{ auth.user?.email }}
-                </div>
+                </p>
               </div>
               <button
                 type="button"
-                class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                class="w-full inline-flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                 @click="handleLogout"
               >
                 <LogOut class="w-4 h-4" />
@@ -150,37 +169,36 @@ function handleLogout() {
               </button>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
 
-      <template v-else>
-        <button
-          type="button"
-          class="flex items-center gap-2 px-3 py-2 theme-text-secondary hover:theme-text rounded-md transition-colors"
-          @click="openAuth('login')"
-        >
-          <LogIn class="w-4 h-4" />
-          <span class="hidden sm:inline text-sm">Sign In</span>
-        </button>
-        <button
-          type="button"
-          class="flex items-center gap-2 px-3 py-2 theme-primary-bg text-white text-xs lg:text-sm font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors"
-          @click="openAuth('signup')"
-        >
-          <User class="w-4 h-4" />
-          <span class="hidden sm:inline">Sign Up</span>
-        </button>
-      </template>
+        <template v-else>
+          <Button
+            variant="ghost"
+            size="sm"
+            @click="openAuth('login')"
+          >
+            <LogIn class="w-4 h-4" />
+            <span class="hidden sm:inline">Sign In</span>
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            @click="openAuth('signup')"
+          >
+            <User class="w-4 h-4" />
+            <span class="hidden sm:inline">Sign Up</span>
+          </Button>
+        </template>
 
-      <!-- Download Resume Button -->
-      <button
-        type="button"
-        class="flex items-center gap-2 px-3 lg:px-4 py-2 theme-surface theme-text text-xs lg:text-sm font-medium rounded-md hover:opacity-80 transition-colors"
-      >
-        <Download class="w-4 h-4" />
-        <span class="hidden sm:inline">{{ t('common.downloadResume') }}</span>
-        <span class="sm:hidden">{{ t('common.cv') }}</span>
-      </button>
+        <Button
+          variant="secondary"
+          size="sm"
+        >
+          <Download class="w-4 h-4" />
+          <span class="hidden sm:inline">{{ t('common.downloadResume') }}</span>
+          <span class="sm:hidden">{{ t('common.cv') }}</span>
+        </Button>
+      </div>
     </div>
 
     <AuthModal

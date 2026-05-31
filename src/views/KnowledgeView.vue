@@ -31,56 +31,56 @@ const filteredArticles = computed(() => {
 
 const featuredArticles = computed(() => articles.filter((a) => a.featured))
 
-function levelClass(level) {
-  if (level === 'Beginner') return 'text-green-600'
-  if (level === 'Intermediate') return 'text-yellow-600'
-  return 'text-red-600'
+function levelColor(level) {
+  if (level === 'Beginner') return 'success'
+  if (level === 'Intermediate') return 'warning'
+  return 'error'
 }
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="space-y-6">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold theme-text mb-4">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
         Knowledge Base
       </h1>
-      <p class="text-lg theme-text-secondary mb-6">
+      <p class="text-base text-muted-foreground max-w-2xl mx-auto">
         Technical articles, tutorials, and insights from my experience in backend development and infrastructure
       </p>
     </div>
 
     <!-- Search + filter -->
-    <div class="flex flex-col md:flex-row gap-4 mb-8">
+    <div class="flex flex-col md:flex-row gap-3 mb-6">
       <div class="flex-1 relative">
-        <Search class="absolute left-3 top-1/2 -translate-y-1/2 theme-text-secondary w-5 h-5" />
+        <Search class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 pointer-events-none" />
         <input
           v-model="searchQuery"
           type="text"
           placeholder="Search articles, tutorials, and topics..."
-          class="w-full pl-10 pr-4 py-3 border theme-border rounded-lg focus:outline-none focus:theme-primary theme-bg theme-text"
+          class="input-base pl-10"
         >
       </div>
       <Button
         variant="outline"
-        size="lg"
+        size="md"
       >
-        <Filter class="w-5 h-5" />
+        <Filter class="w-4 h-4" />
         Filter
       </Button>
     </div>
 
     <!-- Category tabs -->
-    <div class="flex flex-wrap gap-2 mb-8">
+    <div class="flex flex-wrap gap-2 mb-6">
       <button
         v-for="cat in articleCategories"
         :key="cat"
         type="button"
         :class="[
-          'px-4 py-2 text-sm font-medium rounded-lg border transition-colors duration-200',
+          'px-3 py-1.5 text-xs font-medium rounded-md border transition-colors',
           activeCategory === cat
-            ? 'theme-primary-bg text-white border-transparent'
-            : 'theme-border theme-text-secondary hover:theme-primary',
+            ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
+            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent',
         ]"
         @click="activeCategory = cat"
       >
@@ -89,74 +89,77 @@ function levelClass(level) {
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
       <Card
         v-for="s in knowledgeStats"
         :key="s.label"
         class="text-center"
       >
-        <div class="text-2xl font-bold theme-primary mb-2">
+        <div class="text-2xl font-bold text-brand-600 dark:text-brand-400 mb-1">
           {{ s.value }}
         </div>
-        <div class="text-sm theme-text-secondary">
+        <div class="text-xs text-muted-foreground">
           {{ s.label }}
         </div>
       </Card>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
       <!-- Main column -->
       <div class="xl:col-span-3">
         <!-- Featured -->
-        <section class="mb-12">
-          <h2 class="text-2xl font-bold theme-text mb-6 flex items-center gap-3">
-            <TrendingUp class="w-6 h-6 theme-primary" />
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-foreground mb-4 inline-flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-900/30 inline-flex items-center justify-center">
+              <TrendingUp class="w-4 h-4 text-brand-600 dark:text-brand-400" />
+            </span>
             Featured Articles
           </h2>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Card
               v-for="article in featuredArticles"
               :key="article.id"
               hoverable
               class="group"
             >
-              <div class="flex items-start justify-between mb-3">
+              <div class="flex items-start justify-between mb-2">
                 <Badge variant="primary">
                   {{ article.category }}
                 </Badge>
-                <span class="text-xs theme-text-secondary">{{ article.publishDate }}</span>
+                <span class="text-xs text-muted-foreground">{{ article.publishDate }}</span>
               </div>
-              <h3 class="text-lg font-semibold theme-text group-hover:theme-primary transition-colors mb-3">
+              <h3 class="text-base font-semibold text-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors mb-2">
                 {{ article.title }}
               </h3>
-              <p class="theme-text text-sm mb-4 line-clamp-3">
+              <p class="text-sm text-muted-foreground line-clamp-3 mb-3">
                 {{ article.excerpt }}
               </p>
-              <div class="flex flex-wrap gap-1 mb-4">
+              <div class="flex flex-wrap gap-1 mb-3">
                 <Badge
                   v-for="tag in article.tags.slice(0, 3)"
                   :key="tag"
+                  variant="outline"
                 >
                   {{ tag }}
                 </Badge>
               </div>
-              <div class="flex items-center justify-between text-sm theme-text-secondary">
-                <div class="flex items-center gap-4">
-                  <div class="flex items-center gap-1">
-                    <Clock class="w-4 h-4" />
+              <div class="flex items-center justify-between text-xs text-muted-foreground">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex items-center gap-1">
+                    <Clock class="w-3.5 h-3.5" />
                     {{ article.readTime }}
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <User class="w-4 h-4" />
-                    {{ article.views }} views
-                  </div>
+                  </span>
+                  <span class="inline-flex items-center gap-1">
+                    <User class="w-3.5 h-3.5" />
+                    {{ article.views }}
+                  </span>
                 </div>
                 <button
                   type="button"
-                  class="flex items-center gap-1 theme-primary hover:opacity-80 font-medium"
+                  class="inline-flex items-center gap-1 text-brand-600 dark:text-brand-400 hover:opacity-80 font-medium"
                 >
-                  Read More
-                  <ArrowRight class="w-4 h-4" />
+                  Read
+                  <ArrowRight class="w-3.5 h-3.5" />
                 </button>
               </div>
             </Card>
@@ -165,54 +168,57 @@ function levelClass(level) {
 
         <!-- All articles -->
         <section>
-          <h2 class="text-2xl font-bold theme-text mb-6 flex items-center gap-3">
-            <BookOpen class="w-6 h-6 theme-primary" />
+          <h2 class="text-xl font-bold text-foreground mb-4 inline-flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-900/30 inline-flex items-center justify-center">
+              <BookOpen class="w-4 h-4 text-brand-600 dark:text-brand-400" />
+            </span>
             All Articles
           </h2>
-          <div class="space-y-4">
+          <div class="space-y-3">
             <Card
               v-for="article in filteredArticles"
               :key="article.id"
               hoverable
               class="group"
             >
-              <div class="flex items-center gap-4 mb-2">
+              <div class="flex items-center gap-3 mb-2 flex-wrap">
                 <Badge>{{ article.category }}</Badge>
                 <Badge :variant="article.status === 'Published' ? 'success' : 'warning'">
                   {{ article.status }}
                 </Badge>
-                <span class="text-xs theme-text-secondary">{{ article.publishDate }}</span>
+                <span class="text-xs text-muted-foreground">{{ article.publishDate }}</span>
               </div>
-              <h3 class="text-lg font-semibold theme-text group-hover:theme-primary transition-colors mb-2">
+              <h3 class="text-base font-semibold text-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors mb-2">
                 {{ article.title }}
               </h3>
-              <p class="theme-text text-sm mb-3">
+              <p class="text-sm text-muted-foreground mb-3">
                 {{ article.excerpt }}
               </p>
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between flex-wrap gap-2">
                 <div class="flex flex-wrap gap-1">
                   <Badge
                     v-for="tag in article.tags.slice(0, 4)"
                     :key="tag"
+                    variant="outline"
                   >
                     {{ tag }}
                   </Badge>
                 </div>
-                <div class="flex items-center gap-4 text-sm theme-text-secondary">
-                  <div class="flex items-center gap-1">
-                    <Clock class="w-4 h-4" />
+                <div class="flex items-center gap-3 text-xs text-muted-foreground">
+                  <span class="inline-flex items-center gap-1">
+                    <Clock class="w-3.5 h-3.5" />
                     {{ article.readTime }}
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <User class="w-4 h-4" />
+                  </span>
+                  <span class="inline-flex items-center gap-1">
+                    <User class="w-3.5 h-3.5" />
                     {{ article.views }}
-                  </div>
+                  </span>
                 </div>
               </div>
             </Card>
             <div
               v-if="!filteredArticles.length"
-              class="text-center py-12 theme-text-secondary"
+              class="text-center py-8 text-muted-foreground text-sm"
             >
               No articles match current filter.
             </div>
@@ -221,38 +227,39 @@ function levelClass(level) {
       </div>
 
       <!-- Sidebar -->
-      <div class="space-y-8">
-        <!-- Quick Tutorials -->
+      <div class="space-y-6">
         <section>
-          <h3 class="text-xl font-bold theme-text mb-6">
+          <h3 class="text-base font-bold text-foreground mb-3">
             Quick Tutorials
           </h3>
-          <div class="space-y-4">
+          <div class="space-y-3">
             <Card
               v-for="(t, i) in tutorials"
               :key="i"
             >
-              <h4 class="font-semibold theme-text mb-2">
+              <h4 class="text-sm font-semibold text-foreground mb-2">
                 {{ t.title }}
               </h4>
-              <div class="space-y-2 text-sm theme-text-secondary">
+              <div class="space-y-1.5 text-xs text-muted-foreground mb-3">
                 <div class="flex justify-between">
-                  <span>Duration:</span>
-                  <span>{{ t.duration }}</span>
+                  <span>Duration</span>
+                  <span class="font-medium">{{ t.duration }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>Level</span>
+                  <Badge :variant="levelColor(t.level)">
+                    {{ t.level }}
+                  </Badge>
                 </div>
                 <div class="flex justify-between">
-                  <span>Level:</span>
-                  <span :class="['font-medium', levelClass(t.level)]">{{ t.level }}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span>Category:</span>
-                  <span>{{ t.category }}</span>
+                  <span>Category</span>
+                  <span class="font-medium">{{ t.category }}</span>
                 </div>
               </div>
               <Button
                 variant="primary"
-                size="md"
-                class="w-full mt-4"
+                size="sm"
+                class="w-full"
               >
                 Start Tutorial
               </Button>
@@ -260,18 +267,17 @@ function levelClass(level) {
           </div>
         </section>
 
-        <!-- Popular Tags -->
         <section>
-          <h3 class="text-xl font-bold theme-text mb-6">
+          <h3 class="text-base font-bold text-foreground mb-3">
             Popular Tags
           </h3>
           <Card>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-1.5">
               <Badge
                 v-for="tag in popularTags"
                 :key="tag"
                 variant="outline"
-                class="cursor-pointer hover:theme-primary-bg hover:text-white transition-colors"
+                class="cursor-pointer hover:bg-brand-50 hover:text-brand-700 hover:border-brand-200 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 dark:hover:border-brand-800 transition-colors"
               >
                 {{ tag }}
               </Badge>
@@ -279,23 +285,23 @@ function levelClass(level) {
           </Card>
         </section>
 
-        <!-- Newsletter -->
         <section>
-          <h3 class="text-xl font-bold theme-text mb-6">
+          <h3 class="text-base font-bold text-foreground mb-3">
             Stay Updated
           </h3>
           <Card>
-            <p class="text-sm theme-text-secondary mb-4">
-              Get notified when I publish new articles and tutorials about backend development and infrastructure.
+            <p class="text-xs text-muted-foreground mb-3">
+              Get notified when I publish new articles and tutorials.
             </p>
-            <div class="space-y-3">
+            <div class="space-y-2">
               <input
                 type="email"
                 placeholder="Enter your email"
-                class="w-full px-3 py-2 border theme-border rounded-md text-sm focus:outline-none theme-bg theme-text"
+                class="input-base"
               >
               <Button
                 variant="primary"
+                size="sm"
                 class="w-full"
               >
                 Subscribe
@@ -306,8 +312,7 @@ function levelClass(level) {
       </div>
     </div>
 
-    <!-- Load more -->
-    <div class="text-center mt-12">
+    <div class="text-center mt-8">
       <Button variant="secondary">
         Load More Articles
       </Button>

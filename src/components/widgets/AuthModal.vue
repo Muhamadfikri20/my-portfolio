@@ -1,7 +1,8 @@
 <script setup>
-// Phase 4 stub — full implementation in Phase 5
 import { ref, watch } from 'vue'
+import { X } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
+import Button from '@/components/ui/Button.vue'
 
 const props = defineProps({
   isOpen: { type: Boolean, default: false },
@@ -36,13 +37,23 @@ async function submit() {
 <template>
   <div
     v-if="isOpen"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
     @click.self="emit('close')"
   >
-    <div class="bg-white dark:bg-neutral-900 rounded-lg p-6 w-full max-w-md shadow-xl">
-      <h2 class="text-xl font-bold mb-4">
-        {{ mode === 'login' ? 'Sign In' : 'Sign Up' }}
-      </h2>
+    <div class="bg-card text-card-foreground rounded-2xl p-6 w-full max-w-md border border-border shadow-soft-md">
+      <div class="flex items-start justify-between mb-4">
+        <h2 class="text-lg font-semibold text-foreground">
+          {{ mode === 'login' ? 'Sign In' : 'Sign Up' }}
+        </h2>
+        <button
+          type="button"
+          aria-label="Close"
+          class="h-8 w-8 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          @click="emit('close')"
+        >
+          <X class="w-4 h-4" />
+        </button>
+      </div>
       <form
         class="space-y-3"
         @submit.prevent="submit"
@@ -53,38 +64,39 @@ async function submit() {
           type="text"
           placeholder="Name"
           required
-          class="w-full border theme-border rounded-md px-3 py-2 bg-transparent"
+          class="input-base"
         >
         <input
           v-model="email"
           type="email"
           placeholder="Email"
           required
-          class="w-full border theme-border rounded-md px-3 py-2 bg-transparent"
+          class="input-base"
         >
         <input
           v-model="password"
           type="password"
           placeholder="Password"
           required
-          class="w-full border theme-border rounded-md px-3 py-2 bg-transparent"
+          class="input-base"
         >
-        <button
+        <Button
           type="submit"
+          variant="primary"
           :disabled="submitting"
-          class="w-full theme-primary-bg text-white py-2 rounded-md font-medium disabled:opacity-50"
+          class="w-full"
         >
-          {{ submitting ? '...' : (mode === 'login' ? 'Sign In' : 'Sign Up') }}
-        </button>
+          {{ submitting ? 'Loading...' : (mode === 'login' ? 'Sign In' : 'Sign Up') }}
+        </Button>
         <p
           v-if="message"
-          class="text-sm text-center theme-text-secondary"
+          class="text-sm text-center text-muted-foreground"
         >
           {{ message }}
         </p>
         <button
           type="button"
-          class="w-full text-sm theme-text-secondary underline"
+          class="w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
           @click="mode = mode === 'login' ? 'signup' : 'login'"
         >
           {{ mode === 'login' ? 'Need an account? Sign up' : 'Have an account? Sign in' }}

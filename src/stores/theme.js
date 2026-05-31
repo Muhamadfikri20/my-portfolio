@@ -1,64 +1,50 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
-import { STORAGE_KEYS, VALID_THEMES } from '@/config/constants'
+import { STORAGE_KEYS } from '@/config/constants'
 
-function applyToDOM(theme, isDark) {
+/**
+ * Theme store (hgis-vue style) — light/dark mode only.
+ * Previous v2.0 had 4 brand themes; now using single hgis-vue brand blue palette.
+ * Multi-theme infrastructure removed for design consistency with hgis-vue.
+ */
+
+function applyToDOM(isDark) {
   if (typeof document === 'undefined') return
-  const html = document.documentElement
-  for (const t of VALID_THEMES) html.classList.remove(`theme-${t}`)
-  html.classList.add(`theme-${theme}`)
-  html.classList.toggle('dark', isDark)
+  document.documentElement.classList.toggle('dark', isDark)
 }
 
 export const useThemeStore = defineStore('theme', () => {
-  // ─── Hydrate from localStorage ───
-  const storedTheme = typeof localStorage !== 'undefined'
-    ? localStorage.getItem(STORAGE_KEYS.THEME)
-    : null
+  // Hydrate from localStorage
   const storedDark = typeof localStorage !== 'undefined'
     ? localStorage.getItem(STORAGE_KEYS.DARK_MODE) === 'true'
     : false
 
-  const currentTheme = ref(
-    VALID_THEMES.includes(storedTheme) ? storedTheme : 'default',
-  )
   const isDark = ref(storedDark)
 
-  // ─── Initial DOM apply (avoid FOUC) ───
-  applyToDOM(currentTheme.value, isDark.value)
+  // Initial DOM apply (avoid FOUC)
+  applyToDOM(isDark.value)
 
-  // ─── Watch & persist & re-apply ───
-  watch(currentTheme, (val) => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.THEME, val)
-    } catch {
-      // Ignore quota / privacy mode errors
-    }
-    applyToDOM(val, isDark.value)
-  })
+  // Watch + persist + re-apply
   watch(isDark, (val) => {
     try {
       localStorage.setItem(STORAGE_KEYS.DARK_MODE, String(val))
     } catch {
       // Ignore quota / privacy mode errors
     }
-    applyToDOM(currentTheme.value, val)
+    applyToDOM(val)
   })
-
-  // ─── Actions ───
-  function setTheme(theme) {
-    if (VALID_THEMES.includes(theme)) currentTheme.value = theme
-  }
 
   function toggleDarkMode() {
     isDark.value = !isDark.value
   }
 
+  function setDarkMode(value) {
+    isDark.value = !!value
+  }
+
   return {
-    currentTheme,
     isDark,
-    themes: VALID_THEMES,
-    setTheme,
     toggleDarkMode,
+    setDarkMode,
   }
 })

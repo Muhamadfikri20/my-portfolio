@@ -41,14 +41,14 @@ const navItems = computed(() => [
 
 const sidebarClass = computed(() => {
   const isRtl = lang.direction === 'rtl'
-  const open = '!translate-x-0'
   const closedTransform = isRtl ? 'translate-x-full' : '-translate-x-full'
   const sideEdge = isRtl ? 'right-0 border-l' : 'left-0 border-r'
   return [
-    'fixed top-16 h-[calc(100vh-4rem)] w-72 theme-surface theme-border p-4 z-20',
+    'fixed top-14 h-[calc(100vh-3.5rem)] w-72 bg-sidebar text-sidebar-foreground border-sidebar-border p-4 z-20',
     'transform transition-transform duration-300 lg:translate-x-0',
+    'shadow-[0_0_15px_rgba(0,0,0,0.02)]',
     sideEdge,
-    props.isOpen ? open : closedTransform,
+    props.isOpen ? '!translate-x-0' : closedTransform,
   ].join(' ')
 })
 </script>
@@ -60,7 +60,7 @@ const sidebarClass = computed(() => {
       <button
         type="button"
         :aria-label="t('common.closeMenu')"
-        class="p-2 theme-text-secondary hover:theme-text rounded-md transition-colors"
+        class="h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
         @click="emit('close')"
       >
         <X class="w-5 h-5" />
@@ -69,20 +69,20 @@ const sidebarClass = computed(() => {
 
     <!-- Profile -->
     <div class="mb-6 lg:mb-8">
-      <div class="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 theme-border">
+      <div class="w-16 h-16 rounded-2xl overflow-hidden mb-4 border-2 border-sidebar-border shadow-sm">
         <img
           src="/assets/icons/general/profile.png"
           alt="Rheyno Apria Pratama"
           class="w-full h-full object-cover"
         >
       </div>
-      <h2 class="text-lg font-semibold theme-text">
+      <h2 class="text-base font-semibold text-foreground">
         {{ t('sidebar.profile.name') }}
       </h2>
-      <p class="text-sm theme-text-secondary">
+      <p class="text-sm text-muted-foreground">
         {{ t('sidebar.profile.title') }}
       </p>
-      <p class="text-xs theme-text-secondary mt-1">
+      <p class="text-xs text-muted-foreground mt-0.5">
         {{ t('sidebar.profile.experience') }}
       </p>
     </div>
@@ -93,23 +93,23 @@ const sidebarClass = computed(() => {
     </div>
 
     <!-- Navigation -->
-    <nav class="space-y-2">
+    <nav class="space-y-1">
       <router-link
         v-for="item in navItems"
         :key="item.id"
         :to="item.to"
-        :class="['sidebar-nav-item w-full text-left', route.name === item.id && 'active']"
+        :class="['sidebar-nav-item', route.name === item.id && 'active']"
         @click="emit('close')"
       >
         <component
           :is="item.icon"
-          class="w-5 h-5"
+          class="w-4 h-4 shrink-0"
         />
-        <div class="flex-1">
-          <div class="font-medium">
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium truncate">
             {{ item.label }}
           </div>
-          <div class="text-xs theme-text-secondary">
+          <div class="text-[11px] opacity-70 truncate">
             {{ item.desc }}
           </div>
         </div>
@@ -118,13 +118,13 @@ const sidebarClass = computed(() => {
 
     <!-- Footer -->
     <div class="absolute bottom-4 left-4 right-4">
-      <div class="flex items-center justify-center gap-2 mb-2">
-        <BookOpen class="w-4 h-4 theme-primary" />
-        <span class="text-xs font-medium theme-text-secondary">
+      <div class="flex items-center justify-center gap-2 mb-1.5">
+        <BookOpen class="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
+        <span class="text-[11px] font-medium text-muted-foreground">
           {{ t('sidebar.footer.portfolio') }}
         </span>
       </div>
-      <div class="text-xs theme-text-secondary text-center">
+      <div class="text-[10px] text-muted-foreground text-center">
         {{ t('sidebar.footer.copyright') }}
       </div>
     </div>
