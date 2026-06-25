@@ -29,6 +29,10 @@
         "default": {
             "title": "Portofolio",
             "subtitle": "Selamat datang di profil profesional saya"
+        },
+        "admin": {
+            "title": "Dasbor Admin",
+            "subtitle": "Kelola konten portofolio Anda"
         }
     },
     "sidebar": {

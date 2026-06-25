@@ -90,6 +90,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function loginWithGoogle() {
+    error.value = null
+    const { error: err } = await authService.signInWithGoogle()
+    if (err) return { success: false, message: err.message }
+    return { success: true, message: '' }
+  }
+
   async function logout() {
     try {
       await authService.signOut()
@@ -118,6 +125,7 @@ export const useAuthStore = defineStore('auth', () => {
     dispose,
     login,
     signup,
+    loginWithGoogle,
     logout,
     toggleEditMode,
   }

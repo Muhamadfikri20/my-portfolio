@@ -3,18 +3,23 @@ import { ref, computed } from 'vue'
 import {
   BookOpen, Clock, User, TrendingUp, Search, Filter, ArrowRight,
 } from 'lucide-vue-next'
+import { storeToRefs } from 'pinia'
 import {
-  articles, articleCategories, tutorials, knowledgeStats, popularTags,
+  tutorials, knowledgeStats, popularTags,
 } from '@/data/articles'
+import { useContentStore } from '@/stores/content'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
+
+const content = useContentStore()
+const { articles, articleCategories, featuredArticles } = storeToRefs(content)
 
 const activeCategory = ref('All')
 const searchQuery = ref('')
 
 const filteredArticles = computed(() => {
-  let list = articles
+  let list = articles.value
   if (activeCategory.value !== 'All') {
     list = list.filter((a) => a.category === activeCategory.value)
   }
@@ -29,8 +34,6 @@ const filteredArticles = computed(() => {
   return list
 })
 
-const featuredArticles = computed(() => articles.filter((a) => a.featured))
-
 function levelColor(level) {
   if (level === 'Beginner') return 'success'
   if (level === 'Intermediate') return 'warning'
@@ -41,9 +44,12 @@ function levelColor(level) {
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
-        Knowledge Base
+    <div
+      v-reveal
+      class="text-center mb-8"
+    >
+      <h1 class="text-3xl lg:text-4xl font-extrabold mb-3 tracking-tight">
+        <span class="gradient-text">Knowledge Base</span>
       </h1>
       <p class="text-base text-muted-foreground max-w-2xl mx-auto">
         Technical articles, tutorials, and insights from my experience in backend development and infrastructure
@@ -77,10 +83,10 @@ function levelColor(level) {
         :key="cat"
         type="button"
         :class="[
-          'px-3 py-1.5 text-xs font-medium rounded-md border transition-colors',
+          'px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all',
           activeCategory === cat
-            ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
-            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent',
+            ? 'text-white bg-gradient-to-br from-brand-500 to-brand-700 border-transparent shadow-[0_8px_20px_-10px_var(--ring)]'
+            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent hover:border-brand-300 dark:hover:border-brand-700',
         ]"
         @click="activeCategory = cat"
       >
@@ -91,11 +97,12 @@ function levelColor(level) {
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
       <Card
-        v-for="s in knowledgeStats"
+        v-for="(s, i) in knowledgeStats"
         :key="s.label"
+        v-reveal:zoom="i * 70"
         class="text-center"
       >
-        <div class="text-2xl font-bold text-brand-600 dark:text-brand-400 mb-1">
+        <div class="text-3xl font-extrabold gradient-text mb-1">
           {{ s.value }}
         </div>
         <div class="text-xs text-muted-foreground">
@@ -117,8 +124,9 @@ function levelColor(level) {
           </h2>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Card
-              v-for="article in featuredArticles"
+              v-for="(article, fi) in featuredArticles"
               :key="article.id"
+              v-reveal="fi * 90"
               hoverable
               class="group"
             >
@@ -176,8 +184,9 @@ function levelColor(level) {
           </h2>
           <div class="space-y-3">
             <Card
-              v-for="article in filteredArticles"
+              v-for="(article, ai) in filteredArticles"
               :key="article.id"
+              v-reveal="ai * 60"
               hoverable
               class="group"
             >

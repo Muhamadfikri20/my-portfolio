@@ -10,8 +10,8 @@ const props = defineProps({
 
 const className = computed(() =>
   cn([
-    'bg-card text-card-foreground rounded-xl border border-border',
-    props.flat ? '' : 'shadow-sm',
+    'bg-card text-card-foreground rounded-2xl border border-border/70',
+    props.flat ? '' : 'shadow-[var(--shadow-card)]',
     props.padded && 'p-6',
     props.hoverable && 'card-hover',
   ]),

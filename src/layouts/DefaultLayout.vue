@@ -23,7 +23,7 @@ const mainClass = computed(() => [
     <!-- Mobile overlay -->
     <div
       v-if="sidebarOpen"
-      class="fixed inset-0 top-14 bg-black/20 backdrop-blur-sm z-10 lg:hidden"
+      class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
       @click="sidebarOpen = false"
     />
 
@@ -38,12 +38,12 @@ const mainClass = computed(() => [
         <div class="p-4 lg:p-6 max-w-7xl mx-auto w-full">
           <router-view v-slot="{ Component, route }">
             <transition
-              enter-active-class="transition-all duration-300 ease-out"
-              enter-from-class="opacity-0 translate-y-2"
-              enter-to-class="opacity-100 translate-y-0"
-              leave-active-class="transition-all duration-150 ease-in"
+              enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.16,0.84,0.44,1)]"
+              enter-from-class="opacity-0 translate-y-3 blur-[2px] scale-[0.99]"
+              enter-to-class="opacity-100 translate-y-0 blur-0 scale-100"
+              leave-active-class="transition-all duration-200 ease-in"
               leave-from-class="opacity-100"
-              leave-to-class="opacity-0"
+              leave-to-class="opacity-0 blur-[2px]"
               mode="out-in"
             >
               <component

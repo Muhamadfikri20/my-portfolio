@@ -3,16 +3,21 @@ import { ref, computed } from 'vue'
 import {
   ExternalLink, Github, Star, Calendar, Tag, Eye,
 } from 'lucide-vue-next'
-import { projects, projectCategories, projectStats } from '@/data/projects'
+import { storeToRefs } from 'pinia'
+import { projectStats } from '@/data/projects'
+import { useContentStore } from '@/stores/content'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 
+const content = useContentStore()
+const { projects, projectCategories } = storeToRefs(content)
+
 const activeCategory = ref('All')
 
 const filteredProjects = computed(() => {
-  if (activeCategory.value === 'All') return projects
-  return projects.filter((p) => p.category === activeCategory.value)
+  if (activeCategory.value === 'All') return projects.value
+  return projects.value.filter((p) => p.category === activeCategory.value)
 })
 
 function statusVariant(status) {
@@ -25,9 +30,12 @@ function statusVariant(status) {
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
-        Project Showcase
+    <div
+      v-reveal
+      class="text-center mb-8"
+    >
+      <h1 class="text-3xl lg:text-4xl font-extrabold mb-3 tracking-tight">
+        <span class="gradient-text">Project Showcase</span>
       </h1>
       <p class="text-base text-muted-foreground max-w-2xl mx-auto">
         A collection of backend systems, infrastructure projects, and technical solutions I've built
@@ -41,10 +49,10 @@ function statusVariant(status) {
         :key="cat"
         type="button"
         :class="[
-          'px-3 py-1.5 text-xs font-medium rounded-md border transition-colors',
+          'px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all',
           activeCategory === cat
-            ? 'bg-primary text-primary-foreground border-transparent shadow-sm'
-            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent',
+            ? 'text-white bg-gradient-to-br from-brand-500 to-brand-700 border-transparent shadow-[0_8px_20px_-10px_var(--ring)]'
+            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent hover:border-brand-300 dark:hover:border-brand-700',
         ]"
         @click="activeCategory = cat"
       >
@@ -55,11 +63,12 @@ function statusVariant(status) {
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
       <Card
-        v-for="stat in projectStats"
+        v-for="(stat, i) in projectStats"
         :key="stat.label"
+        v-reveal:zoom="i * 70"
         class="text-center"
       >
-        <div class="text-2xl font-bold text-brand-600 dark:text-brand-400 mb-1">
+        <div class="text-3xl font-extrabold gradient-text mb-1">
           {{ stat.value }}
         </div>
         <div class="text-xs text-muted-foreground">
@@ -71,17 +80,21 @@ function statusVariant(status) {
     <!-- Projects grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
       <Card
-        v-for="project in filteredProjects"
+        v-for="(project, i) in filteredProjects"
         :key="project.id"
+        v-reveal="i * 70"
         hoverable
-        class="group flex flex-col"
+        class="group flex flex-col ring-gradient"
       >
-        <!-- Preview placeholder -->
-        <div class="w-full h-40 bg-gradient-to-br from-brand-50 to-brand-100 dark:from-brand-900/40 dark:to-brand-800/20 rounded-lg mb-4 flex items-center justify-center">
-          <div class="text-brand-400 dark:text-brand-500 text-center">
-            <Eye class="w-6 h-6 mx-auto mb-1.5" />
-            <span class="text-xs font-medium">Preview</span>
-          </div>
+        <!-- Preview -->
+        <div class="relative w-full h-40 rounded-xl mb-4 overflow-hidden bg-gradient-to-br from-brand-500/90 via-brand-600/80 to-purple-600/70 flex items-center justify-center">
+          <div class="absolute inset-0 opacity-30 mix-blend-overlay" style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 40%), radial-gradient(circle at 80% 70%, white 0, transparent 35%);" />
+          <span class="relative text-5xl font-black text-white/90 drop-shadow-sm select-none">
+            {{ project.title.charAt(0) }}
+          </span>
+          <span class="absolute bottom-2 right-2 inline-flex items-center gap-1 text-[10px] font-medium text-white/80 bg-black/20 rounded-full px-2 py-0.5 backdrop-blur-sm">
+            <Eye class="w-3 h-3" /> {{ project.year }}
+          </span>
         </div>
 
         <!-- Header -->

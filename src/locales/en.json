@@ -29,6 +29,10 @@
         "default": {
             "title": "Portfolio",
             "subtitle": "Welcome to my professional profile"
+        },
+        "admin": {
+            "title": "Admin Dashboard",
+            "subtitle": "Manage your portfolio content"
         }
     },
     "sidebar": {

@@ -3,13 +3,14 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   Download, Mail, Github, Linkedin, Menu,
-  LogIn, LogOut, User, Edit3, BookOpen, ChevronDown,
+  LogIn, LogOut, User, LayoutDashboard, BookOpen, ChevronDown,
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useTranslations } from '@/composables/useTranslations'
 import Button from '@/components/ui/Button.vue'
 import LanguageSwitcher from '@/components/widgets/LanguageSwitcher.vue'
 import ThemeToggle from '@/components/widgets/ThemeToggle.vue'
+import ThemePalette from '@/components/widgets/ThemePalette.vue'
 import AuthModal from '@/components/widgets/AuthModal.vue'
 
 const emit = defineEmits(['menuClick'])
@@ -50,8 +51,13 @@ function getInitials(name) {
 
 <template>
   <header
-    class="shrink-0 z-30 bg-topbar/95 backdrop-blur-md h-14 border-b border-border/50 transition-colors duration-300"
+    class="relative shrink-0 z-30 bg-topbar/70 backdrop-blur-xl supports-[backdrop-filter]:bg-topbar/60 h-14 transition-colors duration-300"
   >
+    <!-- Gradient hairline bottom border -->
+    <div
+      class="pointer-events-none absolute bottom-0 inset-x-0 h-px"
+      style="background: linear-gradient(90deg, transparent, oklch(0.6 0.2 270 / 0.5), oklch(0.65 0.16 320 / 0.4), transparent);"
+    />
     <div class="flex items-center justify-between px-4 lg:px-6 h-full">
       <!-- Left: menu toggle + section title -->
       <div class="flex items-center gap-3 min-w-0">
@@ -66,11 +72,14 @@ function getInitials(name) {
         </Button>
 
         <div class="flex items-center gap-3 min-w-0">
-          <div class="w-9 h-9 rounded-lg bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-            <BookOpen class="w-5 h-5 text-brand-600 dark:text-brand-400" />
+          <div class="relative shrink-0">
+            <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 blur-[5px] opacity-50" />
+            <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center shadow-sm">
+              <BookOpen class="w-5 h-5 text-white" />
+            </div>
           </div>
           <div class="min-w-0">
-            <h1 class="text-sm font-semibold text-foreground leading-tight truncate">
+            <h1 class="text-sm font-bold text-foreground leading-tight truncate">
               {{ sectionInfo.title }}
             </h1>
             <p class="text-xs text-muted-foreground hidden sm:block truncate">
@@ -83,6 +92,7 @@ function getInitials(name) {
       <!-- Right: utilities + auth -->
       <div class="flex items-center gap-2 lg:gap-3">
         <LanguageSwitcher />
+        <ThemePalette />
         <ThemeToggle />
 
         <!-- Social links -->
@@ -116,21 +126,20 @@ function getInitials(name) {
 
         <!-- Auth section -->
         <template v-if="auth.isAuthenticated">
-          <button
+          <router-link
             v-if="auth.isAdmin"
-            type="button"
-            :title="auth.isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'"
+            to="/admin"
+            title="Admin Dashboard"
             :class="[
               'inline-flex items-center gap-1.5 px-3 h-9 rounded-md text-xs font-medium transition-colors',
-              auth.isEditMode
-                ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+              route.name === 'admin'
+                ? 'bg-brand-600 text-white hover:bg-brand-700'
                 : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
             ]"
-            @click="auth.toggleEditMode()"
           >
-            <Edit3 class="w-3.5 h-3.5" />
-            <span class="hidden sm:inline">{{ auth.isEditMode ? 'Exit Edit' : 'Edit Mode' }}</span>
-          </button>
+            <LayoutDashboard class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">Admin</span>
+          </router-link>
 
           <div class="relative">
             <button

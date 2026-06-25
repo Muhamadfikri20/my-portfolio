@@ -1,81 +1,81 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import {
   Calendar, MapPin, Award, Code, Server, Database, Cloud,
   Users, Briefcase, GraduationCap,
 } from 'lucide-vue-next'
 import { useTranslations } from '@/composables/useTranslations'
-import { skills } from '@/data/skills'
+import { useContentStore } from '@/stores/content'
 import AnimatedGreeting from '@/components/widgets/AnimatedGreeting.vue'
-import EditableText from '@/components/widgets/EditableText.vue'
 import Card from '@/components/ui/Card.vue'
 
 const { t } = useTranslations()
+const content = useContentStore()
+const { profile, skillsByCategory: skills } = storeToRefs(content)
 
-const introduction = ref(t('resume.introduction'))
-const description = ref(t('resume.description'))
-const location = ref(t('resume.location'))
-const experience = ref(t('resume.experience'))
-const expertise = ref(t('resume.expertise'))
+// Prefer admin-edited Supabase profile; fall back to i18n when none exists
+// (keeps multilingual defaults working before the CMS is populated).
+const introduction = computed(() => profile.value?.introduction || t('resume.introduction'))
+const description = computed(() => profile.value?.description || t('resume.description'))
+const location = computed(() => profile.value?.location || t('resume.location'))
+const experience = computed(() => profile.value?.experience || t('resume.experience'))
+const expertise = computed(() => profile.value?.expertise || t('resume.expertise'))
 
-const experiences = ref(t('resume.experiences', { returnObjects: true }) || [])
-const education = ref(t('resume.education', { returnObjects: true }) || [])
-const certifications = ref(t('resume.certifications', { returnObjects: true }) || [])
+const experiences = computed(() =>
+  profile.value?.experiences?.length ? profile.value.experiences : (t('resume.experiences', { returnObjects: true }) || []))
+const education = computed(() =>
+  profile.value?.education?.length ? profile.value.education : (t('resume.education', { returnObjects: true }) || []))
+const certifications = computed(() =>
+  profile.value?.certifications?.length ? profile.value.certifications : (t('resume.certifications', { returnObjects: true }) || []))
 </script>
 
 <template>
   <div class="space-y-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <div class="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
-        <div class="flex-shrink-0 mx-auto lg:hidden">
-          <div class="w-32 h-32 rounded-2xl overflow-hidden border-4 border-card shadow-soft">
-            <img
-              src="/assets/icons/general/profile.png"
-              alt="Rheyno Apria Pratama"
-              class="w-full h-full object-cover"
-            >
+    <!-- Hero header -->
+    <div
+      v-reveal:zoom
+      class="hero-aurora rounded-3xl border border-border/60 shadow-glow p-6 sm:p-8 lg:p-10 mb-8"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10">
+        <div class="flex-shrink-0 mx-auto lg:mx-0">
+          <div class="relative">
+            <div class="absolute -inset-1.5 rounded-[1.75rem] bg-gradient-to-br from-brand-400/50 to-purple-400/40 blur-md" />
+            <div class="relative w-28 h-28 lg:w-36 lg:h-36 rounded-3xl overflow-hidden border-4 border-card shadow-soft-md">
+              <img
+                src="/assets/icons/general/profile.png"
+                alt="Rheyno Apria Pratama"
+                class="w-full h-full object-cover"
+              >
+            </div>
           </div>
         </div>
 
         <div class="flex-1 text-center lg:text-left">
           <div class="mb-4">
-            <h1 class="text-3xl lg:text-4xl font-bold text-foreground mb-1 tracking-tight">
-              <AnimatedGreeting /> 👋
+            <h1 class="text-3xl lg:text-5xl font-extrabold mb-2 tracking-tight">
+              <span class="gradient-text"><AnimatedGreeting /></span> 👋
             </h1>
             <h2 class="text-2xl lg:text-3xl font-semibold text-foreground/90 tracking-tight">
-              <EditableText v-model="introduction">
-                {{ introduction }}
-              </EditableText>
+              {{ introduction }}
             </h2>
           </div>
-          <p class="text-sm lg:text-lg text-muted-foreground mb-6 leading-relaxed max-w-2xl">
-            <EditableText
-              v-model="description"
-              multiline
-            >
-              {{ description }}
-            </EditableText>
+          <p class="text-sm lg:text-lg text-muted-foreground mb-6 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            {{ description }}
           </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 lg:gap-5 text-sm text-muted-foreground">
-            <div class="inline-flex items-center gap-1.5">
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 lg:gap-3 text-sm">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-muted-foreground">
               <MapPin class="w-4 h-4 text-brand-600 dark:text-brand-400" />
-              <EditableText v-model="location">
-                {{ location }}
-              </EditableText>
-            </div>
-            <div class="inline-flex items-center gap-1.5">
+              {{ location }}
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-muted-foreground">
               <Briefcase class="w-4 h-4 text-brand-600 dark:text-brand-400" />
-              <EditableText v-model="experience">
-                {{ experience }}
-              </EditableText>
-            </div>
-            <div class="inline-flex items-center gap-1.5">
+              {{ experience }}
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-muted-foreground">
               <Code class="w-4 h-4 text-brand-600 dark:text-brand-400" />
-              <EditableText v-model="expertise">
-                {{ expertise }}
-              </EditableText>
-            </div>
+              {{ expertise }}
+            </span>
           </div>
         </div>
       </div>
@@ -96,6 +96,7 @@ const certifications = ref(t('resume.certifications', { returnObjects: true }) |
             <Card
               v-for="(exp, i) in experiences"
               :key="i"
+              v-reveal="i * 90"
               hoverable
             >
               <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
@@ -152,6 +153,7 @@ const certifications = ref(t('resume.certifications', { returnObjects: true }) |
             <Card
               v-for="(edu, i) in education"
               :key="i"
+              v-reveal="i * 90"
               hoverable
             >
               <h3 class="text-base font-semibold text-foreground mb-1">
@@ -181,7 +183,7 @@ const certifications = ref(t('resume.certifications', { returnObjects: true }) |
       <!-- Sidebar -->
       <div class="space-y-6">
         <!-- Skills -->
-        <section>
+        <section v-reveal:right="60">
           <h2 class="text-lg font-bold text-foreground mb-3 inline-flex items-center gap-2">
             <Code class="w-4 h-4 text-brand-600 dark:text-brand-400" />
             {{ t('resume.sections.skills') }}
@@ -274,7 +276,7 @@ const certifications = ref(t('resume.certifications', { returnObjects: true }) |
         </section>
 
         <!-- Certifications -->
-        <section>
+        <section v-reveal:right="140">
           <h2 class="text-lg font-bold text-foreground mb-3 inline-flex items-center gap-2">
             <Award class="w-4 h-4 text-brand-600 dark:text-brand-400" />
             {{ t('resume.sections.certifications') }}
